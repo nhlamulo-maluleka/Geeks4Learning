@@ -6,6 +6,12 @@ namespace G4L.UserManagement.Shared
 {
     public abstract class BaseEntity
     {
+        public BaseEntity()
+        {
+            CreatedDate = DateTime.Now;
+            ModifiedDate = DateTime.Now;
+        }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }

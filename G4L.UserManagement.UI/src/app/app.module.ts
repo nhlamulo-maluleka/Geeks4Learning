@@ -13,11 +13,12 @@ import { ErrorInterceptor } from './shared/interceptors/error.interceptor';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ToastrModule } from 'ngx-toastr';
 import { AttendenceRegisterModule } from './attendence-register/attendence-register.module';
+import { RemoveUnderscorePipe } from './shared/pipes/remove-underscore.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoaderComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,

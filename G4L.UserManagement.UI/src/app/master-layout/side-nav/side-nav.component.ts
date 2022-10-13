@@ -31,12 +31,12 @@ export class SideNavComponent implements OnInit {
   getUserDetails(userId: string | null) {
     this.userService.getUserById(userId).subscribe((response: any) => {
       this.user = response;
-      this.getNavItems();
+      this.getNavItems(this.user);
     });
   }
 
-  getNavItems() {
-    switch (this.user?.role) {
+  getNavItems(user: any) {
+    switch (user?.role) {
       case Roles.Super_Admin:
         this.navItems = [
           {

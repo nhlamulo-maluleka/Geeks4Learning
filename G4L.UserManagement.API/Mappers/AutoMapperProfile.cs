@@ -8,11 +8,15 @@ namespace G4L.UserManagement.API.Mappers
     {
         public AutoMapperProfile()
         {
-            // User -> AuthenticateResponse
             CreateMap<User, AuthenticateResponse>().ReverseMap();
 
-            // RegisterRequest -> User
             CreateMap<RegisterRequest, User>().ReverseMap();
+
+            CreateMap<LeaveRequest, Leave>().ReverseMap();
+            
+            CreateMap<ApproverRequest, Approver>().ReverseMap();
+
+            CreateMap<DocumentRequest, Document>().ReverseMap();
         }
     }
 }

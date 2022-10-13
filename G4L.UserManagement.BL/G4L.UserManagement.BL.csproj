@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Entities\AccessLevel.cs" />
+    <Compile Remove="Entities\Questionnaire.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\G4L.UserManagement.Shared\G4L.UserManagement.Shared.csproj" />
   </ItemGroup>
 

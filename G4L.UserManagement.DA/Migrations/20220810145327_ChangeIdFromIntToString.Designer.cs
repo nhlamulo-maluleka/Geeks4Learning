@@ -4,51 +4,22 @@ using G4L.UserManagement.DA;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace G4L.UserManagement.DA.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20220810145327_ChangeIdFromIntToString")]
+    partial class ChangeIdFromIntToString
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("G4L.UserManagement.BL.Entities.Approver", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Comments")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("LeaveId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("status")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LeaveId");
-
-                    b.ToTable("Approvers");
-                });
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Document", b =>
                 {
@@ -59,14 +30,11 @@ namespace G4L.UserManagement.DA.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<byte[]>("FileData")
-                        .HasColumnType("varbinary(max)");
-
                     b.Property<string>("FileName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("FileType")
-                        .HasColumnType("int");
+                    b.Property<string>("FilePath")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("LeaveId")
                         .HasColumnType("uniqueidentifier");
@@ -87,17 +55,17 @@ namespace G4L.UserManagement.DA.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Comments")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("DaysUsed")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("LeaveType")
-                        .HasColumnType("int");
+                    b.Property<string>("LeaveType")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
@@ -105,7 +73,7 @@ namespace G4L.UserManagement.DA.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -162,36 +130,23 @@ namespace G4L.UserManagement.DA.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("G4L.UserManagement.BL.Entities.Approver", b =>
-                {
-                    b.HasOne("G4L.UserManagement.BL.Entities.Leave", null)
-                        .WithMany("Approvers")
-                        .HasForeignKey("LeaveId");
-                });
-
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Document", b =>
                 {
                     b.HasOne("G4L.UserManagement.BL.Entities.Leave", null)
-                        .WithMany("Documents")
+                        .WithMany("Document")
                         .HasForeignKey("LeaveId");
                 });
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Leave", b =>
                 {
-                    b.HasOne("G4L.UserManagement.BL.Entities.User", "User")
+                    b.HasOne("G4L.UserManagement.BL.Entities.User", null)
                         .WithMany("Leaves")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Leave", b =>
                 {
-                    b.Navigation("Approvers");
-
-                    b.Navigation("Documents");
+                    b.Navigation("Document");
                 });
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.User", b =>

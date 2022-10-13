@@ -1,0 +1,27 @@
+.card-body {
+  padding: 1.5rem;
+}
+
+.leave-summary {
+  background-color: #e9ecef;
+  padding-top: 20px;
+  border-radius: 10px;
+}
+
+.row.date-range {
+  border: 1px solid grey;
+  margin: 0 1px;
+  border-radius: 5px;
+}
+
+.date-control {
+  border: none;
+}
+
+
+.attachments {
+  border: 1px dashed lightgrey;
+  padding: 3rem;
+}
+
+/* Upload files */

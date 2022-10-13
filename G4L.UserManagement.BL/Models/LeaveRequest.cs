@@ -1,23 +1,21 @@
-﻿using G4L.UserManagement.BL.Enum;
-using G4L.UserManagement.Shared;
+﻿using G4L.UserManagement.BL.Entities;
+using G4L.UserManagement.BL.Enum;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace G4L.UserManagement.BL.Entities
+namespace G4L.UserManagement.BL.Models
 {
-    public class Leave: BaseEntity
+    public class LeaveRequest
     {
         public Guid UserId { get; set; }
-        public User User { get; set; }
         public LeaveType LeaveType { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public String Comments { get; set; }
-        public ICollection<Approver> Approvers { get; set; }
-        public ICollection<Document> Documents { get; set; }
+        public ICollection<ApproverRequest> Approvers { get; set; }
+        public ICollection<DocumentRequest> Documents { get; set; }  // TODO: think of a better way to save attachments
     }
 }

@@ -9,7 +9,7 @@ import { contants } from 'src/app/shared/global/global.contants';
 })
 export class TopNavComponent implements OnInit {
   navItems: string[] = [];
-  url: string | undefined;
+  url: string = '';
   username: string | null = null;
 
   constructor(private router: Router) {

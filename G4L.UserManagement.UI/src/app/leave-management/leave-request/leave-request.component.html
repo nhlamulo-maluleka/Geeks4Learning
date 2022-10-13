@@ -1,0 +1,174 @@
+<div class="container-fluid m-0 p-0">
+  <div class="card m-0 p-0">
+    <div class="card-header pb-0">
+      <div class="row align-items-center">
+        <div class="col-8">
+          <h6 class="mb-0 text-uppsercase">Leave request</h6>
+        </div>
+        <div class="col-4 text-end">
+          <a (click)="close()" class="cursor-pointer">
+            <i class="fa-solid fa-xmark"></i></a>
+        </div>
+      </div>
+      <hr class="horizontal dark my-4" />
+    </div>
+    <div class="card-body pt-0">
+      <form [formGroup]="formModel" autocomplete="off" (submit)="applyForLeave()">
+        <div class="row">
+          <div class="col p-3">
+            <!-- Leave type -->
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label class="form-control-label" for="input-leaveType" [ngClass]="{
+                      'red-text':
+                        formModel.controls['leaveType'].invalid &&
+                        formModel.controls['leaveType'].touched
+                    }">Leave type<span class="red-text">*</span></label>
+                  <select type="text" id="input-leaveType" class="form-select" formControlName="leaveType" [ngClass]="{
+                      'red-border':
+                        formModel.controls['leaveType'].invalid &&
+                        formModel.controls['leaveType'].touched
+                    }">
+                    <option *ngFor="let leaveType of keys(leaveTypes)" [ngValue]="leaveType">
+                      {{ leaveType | removeUnderscore }}
+                    </option>
+                  </select>
+                  <div class="red-text" *ngIf="
+                      formModel.controls['leaveType'].invalid &&
+                      formModel.controls['leaveType'].touched
+                    ">
+                    <div *ngIf="formModel.controls['leaveType'].errors.required">
+                      Please select a leave type
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- dates -->
+            <div class="row mt-3">
+              <div class="form-group">
+                <label class="form-control-label" for="input-leaveType" [ngClass]="{
+                    'red-text':
+                      formModel.controls['startDate'].touched &&
+                      formModel.controls['endDate'].touched && negativeDays
+                  }">Dates <span class="red-text">*</span></label>
+                <div class="row date-range" [ngClass]="{
+                  'red-border':
+                  formModel.controls['startDate'].touched &&
+                  formModel.controls['endDate'].touched && negativeDays
+                }">
+                  <div class="col-6 p-0">
+                    <input type="date" formControlName="startDate" class="form-control date-control"
+                      placeholder="Start date">
+                  </div>
+                  <div class="col-6 p-0">
+                    <input type="date" formControlName="endDate" class="form-control date-control"
+                      placeholder="End date">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="col p-3">
+            <div class="row">
+              <!-- summary  -->
+              <div class="col m-2 leave-summary">
+                <h5 class="form-control-label">
+                  Your leave request includes
+                </h5>
+                <p>
+                  {{ formModel.controls['startDate'].value | date: 'd MMM' }} - {{ formModel.controls['endDate'].value
+                  | date: 'd MMM' }}
+                </p>
+                <p *ngIf="negativeDays" class="alert alert-danger">
+                  <i class="fa-solid fa-triangle-exclamation"></i> Leave days exceeded
+                </p>
+                <hr class="horizontal dark my-4" />
+                <h5 class="form-control-label">
+                  {{ calculateDaysRequested() }} days of {{ formModel.controls['leaveType'].value | removeUnderscore }}
+                  Leave
+                </h5>
+                <p>
+                  {{ calculateDaysRemaining() }} days remaining
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- learners comments -->
+        <div class="row mt-3">
+          <div class="col">
+            <div class="form-group">
+              <label class="form-control-label" for="input-comments" [ngClass]="{
+                  'red-text':
+                    formModel.controls['comments'].invalid &&
+                    formModel.controls['comments'].touched
+                }">Comments</label>
+              <textarea type="text" id="input-comments" class="form-control" formControlName="comments" [ngClass]="{
+                  'red-border':
+                    formModel.controls['comments'].invalid &&
+                    formModel.controls['comments'].touched
+                }">
+              </textarea>
+              <div class="red-text" *ngIf="
+                  formModel.controls['comments'].invalid &&
+                  formModel.controls['comments'].touched
+                ">
+                <div *ngIf="formModel.controls['comments'].errors.required">
+                  Please type your comments for the approvers
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- attachments/ supporting documents -->
+        <div class="row mt-3">
+          <div class="col">
+            <div class="form-group">
+              <label class="form-control-label" for="input-documents" [ngClass]="{
+                  'red-text':
+                    formModel.controls['documents'].invalid &&
+                    formModel.controls['documents'].touched
+                }">documents
+
+                <input type="file" style="visibility: hidden;" />
+              </label>
+
+              <input type="file" id="input-documents" class="form-control attachments" formControlName="documents"
+                [ngClass]="{
+                    'red-border':
+                      formModel.controls['documents'].invalid &&
+                      formModel.controls['documents'].touched
+                  }" style="display: none;">
+              <div class="red-text" *ngIf="
+                  formModel.controls['documents'].invalid &&
+                  formModel.controls['documents'].touched
+                ">
+                <div *ngIf="formModel.controls['documents'].errors.required">
+                  Please type your documents for the approvers
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-3">
+          <div class="col-6"></div>
+          <div class="col-3 text-end">
+            <a (click)="close()" class="btn btn-sm bg-2 gradient-primary mb-0 text-uppercase">
+              Cancel</a>
+          </div>
+          <div class="col-3 text-end">
+            <a (click)="applyForLeave()" class="btn btn-sm bg-2 gradient-primary mb-0 btn-dark text-uppercase">
+              Request</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

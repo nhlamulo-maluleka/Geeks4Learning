@@ -1,0 +1,118 @@
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
+import { ToastrService } from 'ngx-toastr';
+import { LeaveTypes } from 'src/app/shared/global/leave-types';
+import { TokenService } from 'src/app/usermanagement/login/services/token.service';
+import { LeaveService } from '../services/leave.service';
+
+@Component({
+  selector: 'app-leave-request',
+  templateUrl: './leave-request.component.html',
+  styleUrls: ['./leave-request.component.css']
+})
+export class LeaveRequestComponent implements OnInit {
+
+  formModel: any;
+  userId: any;
+  daysAvailable: number | undefined;
+  daysRemaining: number = 0;
+
+  keys = Object.keys;
+
+  leaveTypes = LeaveTypes;
+  leaveBalance: { leaveType: LeaveTypes; days: number; }[] = [];
+  negativeDays: boolean = false;
+
+  constructor(
+    public modalRef: MdbModalRef<LeaveRequestComponent>,
+    private formBuilder: FormBuilder,
+    private leaveService: LeaveService,
+    private toastr: ToastrService,
+    private tokenService: TokenService
+  ) { }
+
+  ngOnInit(): void {
+    let user: any = this.tokenService.getDecodeToken();
+    this.userId = user.id;
+    this.buildForm();
+    this.getLeaveDays();
+  }
+
+  getLeaveDays() {
+    this.leaveService.getLeaveBalance().subscribe((response: any) => {
+      this.leaveBalance = response;
+      console.log(response);
+    });
+  }
+
+  buildForm() {
+    this.formModel = this.formBuilder.group({
+      userId: [this.userId],
+      leaveType: ['', Validators.required],
+      startDate: ['', Validators.required],
+      endDate: ['', Validators.required],
+      comments: [''],
+      approvers: this.formBuilder.array([
+        {
+          "userId": "156b5e89-99ad-47aa-2895-08da80ffdfed",
+          "status": "Pending",
+          "comments": ""
+        },
+        {
+          "userId": "d0ad240b-dbc2-4458-65ce-08da9afed6cb",
+          "status": "Pending",
+          "comments": ""
+        }
+      ]), // How do we know who will approver
+      documents: [[]]
+    });
+  }
+
+  calculateDaysRequested() {
+    let difference = new Date(this.formModel.get('endDate').value).getTime() - new Date(this.formModel.get('startDate').value).getTime();
+    return Math.ceil(difference / (1000 * 3600 * 24));
+  }
+
+  calculateDaysRemaining(): number | undefined {
+    this.negativeDays = false;
+
+    switch (this.formModel.get('leaveType').value) {
+      case LeaveTypes.Annual:
+        this.daysAvailable = this.leaveBalance.find(x => x.leaveType === LeaveTypes.Annual)?.days;
+        break;
+      case LeaveTypes.Family_Responsibility:
+        this.daysAvailable = this.leaveBalance.find(x => x.leaveType === LeaveTypes.Family_Responsibility)?.days;
+        break;
+      case LeaveTypes.Sick:
+        this.daysAvailable = this.leaveBalance.find(x => x.leaveType === LeaveTypes.Sick)?.days;
+        break;
+      default:
+        return 0;
+    }
+
+    if (this.daysAvailable) {
+      this.daysRemaining = this.daysAvailable - this.calculateDaysRequested();
+
+      // display the error message
+      if (this.daysRemaining < 0) {
+        this.negativeDays = true;
+      }
+
+      return this.daysRemaining;
+    }
+
+    return undefined;
+  }
+
+  applyForLeave() {
+    this.leaveService.applyForLeave(this.formModel.value).subscribe((response: any) => {
+
+    });
+  }
+
+  close() {
+    this.modalRef.close();
+  }
+
+}

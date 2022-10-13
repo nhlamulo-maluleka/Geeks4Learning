@@ -1,4 +1,3 @@
-import { EnumToArrayPipe } from './../shared/pipes/enum-to-array.pipe';
 import { UsermanagementComponent } from './usermanagement.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -8,7 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { EnrolComponent } from './enrol/enrol.component';
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
-import { RemoveUnderscorePipe } from '../shared/pipes/remove-underscore.pipe';
+import { PipesModule } from '../shared/pipes/pipes.module';
 
 @NgModule({
   declarations: [
@@ -16,14 +15,13 @@ import { RemoveUnderscorePipe } from '../shared/pipes/remove-underscore.pipe';
     LoginComponent,
     RegisterComponent,
     EnrolComponent,
-    EnumToArrayPipe,
-    RemoveUnderscorePipe
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     HttpClientModule,
     MdbModalModule,
+    PipesModule
   ],
 })
 export class UsermanagementModule {}
