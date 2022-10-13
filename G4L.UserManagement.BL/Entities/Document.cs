@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using G4L.UserManagement.BL.Enum;
 
 namespace G4L.UserManagement.BL.Entities
 {
@@ -11,8 +12,9 @@ namespace G4L.UserManagement.BL.Entities
     {
         
         public string FileName { get; set; }
-        public string FilePath { get; set; }
-       
-        
+        public byte[] FileData { get; set; }
+        public FileType FileType { get; set; }
+
+
     }
 }

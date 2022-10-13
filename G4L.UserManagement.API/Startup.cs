@@ -3,6 +3,7 @@ using G4L.UserManagement.API.Middleware;
 using G4L.UserManagement.BL;
 using G4L.UserManagement.BL.Interfaces;
 using G4L.UserManagement.DA;
+using G4L.UserManagement.DA.Services;
 using G4L.UserManagement.Infrustructure.Repositories;
 using G4L.UserManagement.Infrustructure.Services;
 using G4L.UserManagement.Shared;
@@ -68,6 +69,7 @@ namespace G4L.UserManagement.API
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IFileUploadService, FileUploadService>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
         }
