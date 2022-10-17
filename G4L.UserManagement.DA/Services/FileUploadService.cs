@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace G4L.UserManagement.DA.Services
 {
-    public class FileUploadService :IFileUploadService
+    public class FileUploadService : IFileUploadService
     {
         private readonly DatabaseContext _databaseContext;
 
@@ -25,7 +25,6 @@ namespace G4L.UserManagement.DA.Services
             _databaseContext = databaseContext;
 
         }
-
         public async Task PostFileAsync(IFormFile fileData, FileType fileType)
         {
             {

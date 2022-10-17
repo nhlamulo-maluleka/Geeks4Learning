@@ -3,11 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace G4L.UserManagement.DA.Migrations
 {
-<<<<<<<< HEAD:G4L.UserManagement.DA/Migrations/20221012113143_Uploading_Documents.cs
-    public partial class Uploading_Documents : Migration
-========
-    public partial class InitAllTables : Migration
->>>>>>>> User-stories/US-161-Sick-leave-request-feature:G4L.UserManagement.DA/Migrations/20221010114257_InitAllTables.cs
+    public partial class Attachments : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -39,15 +35,11 @@ namespace G4L.UserManagement.DA.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-<<<<<<<< HEAD:G4L.UserManagement.DA/Migrations/20221012113143_Uploading_Documents.cs
-                    LeaveType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-========
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     LeaveType = table.Column<int>(type: "int", nullable: false),
->>>>>>>> User-stories/US-161-Sick-leave-request-feature:G4L.UserManagement.DA/Migrations/20221010114257_InitAllTables.cs
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Comments = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -59,7 +51,7 @@ namespace G4L.UserManagement.DA.Migrations
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

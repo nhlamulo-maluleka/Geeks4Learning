@@ -13,6 +13,8 @@ namespace G4L.UserManagement.DA.Repositories
     {
         public LeaveRepository(DatabaseContext databaseContext) : base(databaseContext)
         {
+
+
         }
     }
 }
