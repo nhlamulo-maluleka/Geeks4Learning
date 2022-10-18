@@ -17,6 +17,6 @@ namespace G4L.UserManagement.BL.Interfaces
 
         public Task PostMultiFileAsync(List<UploadDocuments> fileData);
 
-        public Task DownloadFileById(int fileName);
+        public Task Upload(int fileName);
     }
 }

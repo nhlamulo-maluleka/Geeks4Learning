@@ -3,12 +3,15 @@ using G4L.UserManagement.BL.Enum;
 using G4L.UserManagement.BL.Interfaces;
 using G4L.UserManagement.BL.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 
@@ -84,9 +87,10 @@ namespace G4L.UserManagement.DA.Services
             }
         }
 
-        Task IFileUploadService.DownloadFileById(int fileName)
+        Task IFileUploadService.Upload(int fileName)
         {
             throw new NotImplementedException();
         }
     }
-}
+    }
+
