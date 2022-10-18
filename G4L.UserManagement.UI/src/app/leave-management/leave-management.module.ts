@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { LeaveManagementComponent } from './leave-management.component';
 import { LeaveRequestComponent } from './leave-request/leave-request.component';
 import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 import { MaterialModule } from '../shared/material/material.module';
 
@@ -16,7 +16,8 @@ import { MaterialModule } from '../shared/material/material.module';
     ReactiveFormsModule,
     MdbModalModule,
     PipesModule,
-    MaterialModule
+    MaterialModule,
+    FormsModule
   ]
 })
 export class LeaveManagementModule { }

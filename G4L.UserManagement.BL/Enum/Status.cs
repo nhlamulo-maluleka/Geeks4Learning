@@ -9,8 +9,9 @@ namespace G4L.UserManagement.BL.Enum
     public enum Status
     {
         Pending,
-        PartiallyApproved,
+        Partially_Approved,
         Approved,
-        Rejected
+        Rejected,
+        Cancelled
     }
 }

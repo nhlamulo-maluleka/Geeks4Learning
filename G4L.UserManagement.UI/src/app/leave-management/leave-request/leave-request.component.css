@@ -9,7 +9,7 @@
 }
 
 .row.date-range {
-  border: 1px solid grey;
+  border: 1px solid #ced4da;
   margin: 0 1px;
   border-radius: 5px;
 }
@@ -25,3 +25,12 @@
 }
 
 /* Upload files */
+
+
+
+/* All day/half day */
+.leave-day-duration {
+  background-color: #e9ecef;
+  border: none;
+  color: #347EF5;
+}

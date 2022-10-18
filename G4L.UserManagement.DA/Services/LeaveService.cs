@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using G4L.UserManagement.BL.Entities;
+using G4L.UserManagement.BL.Enum;
 using G4L.UserManagement.BL.Interfaces;
 using G4L.UserManagement.BL.Models;
 using System;
@@ -23,11 +24,29 @@ namespace G4L.UserManagement.DA.Services
             _mapper = mapper;
         }
 
-        public async Task LeaveRequestAsync(LeaveRequest leaveRequest)
+        public Task<dynamic> GetLeaveBalancesAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<List<LeaveRequest>> GetLeaveRequestsAsync(Guid userId)
+        {
+            var leaves = await _leaveRepository.ListAsync(x => x.UserId == userId);
+            return _mapper.Map<List<LeaveRequest>>(leaves);
+        }
+
+        public async Task RequestLeaveAsync(LeaveRequest leaveRequest)
         {
             var leave = _mapper.Map<Leave>(leaveRequest);
             leave.User = await _userRepository.GetByIdAsync(leaveRequest.UserId);
             await _leaveRepository.CreateAsync(leave);
+        }
+
+        public async Task UpdateLeaveStatusAsync(Guid id, Status status)
+        {
+            var leave = await _leaveRepository.GetByIdAsync(id);
+            leave.Status = status;
+            await _leaveRepository.UpdateAsync(leave);
         }
     }
 }

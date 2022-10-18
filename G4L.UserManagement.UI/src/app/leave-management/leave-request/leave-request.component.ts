@@ -1,3 +1,4 @@
+import { LeaveDayType } from './../../shared/global/leave-day-type';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
@@ -5,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { LeaveTypes } from 'src/app/shared/global/leave-types';
 import { TokenService } from 'src/app/usermanagement/login/services/token.service';
 import { LeaveService } from '../services/leave.service';
+import { LeaveStatus } from 'src/app/shared/global/leave-status';
 
 @Component({
   selector: 'app-leave-request',
@@ -15,7 +17,7 @@ export class LeaveRequestComponent implements OnInit {
 
   formModel: any;
   userId: any;
-  daysAvailable: number | undefined;
+  daysAvailable: number | undefined = 0;
   daysRemaining: number = 0;
 
   keys = Object.keys;
@@ -23,6 +25,9 @@ export class LeaveRequestComponent implements OnInit {
   leaveTypes = LeaveTypes;
   leaveBalance: { leaveType: LeaveTypes; days: number; }[] = [];
   negativeDays: boolean = false;
+
+  daysType = LeaveDayType;
+  leaveSchedule: { date: Date; leaveDayType: LeaveDayType; }[] = [];
 
   constructor(
     public modalRef: MdbModalRef<LeaveRequestComponent>,
@@ -53,6 +58,8 @@ export class LeaveRequestComponent implements OnInit {
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
       comments: [''],
+      leaveDayDuration: [],
+      status: [ LeaveStatus.Pending ],
       approvers: this.formBuilder.array([
         {
           "userId": "156b5e89-99ad-47aa-2895-08da80ffdfed",
@@ -109,6 +116,22 @@ export class LeaveRequestComponent implements OnInit {
     this.leaveService.applyForLeave(this.formModel.value).subscribe((response: any) => {
 
     });
+  }
+
+  onOptionsSelected(event: any) {
+    this.leaveSchedule = [];
+    const startDate = new Date(this.formModel.get('startDate').value);
+    switch (this.formModel.get('leaveDayDuration').value) {
+      case LeaveDayType.Half_day:
+        for (let index = 0; index < this.calculateDaysRequested(); index++) {
+          let newDate = startDate.setDate(startDate.getDate() + 1);
+          this.leaveSchedule.push({ date: new Date(newDate), leaveDayType: LeaveDayType.All_day });
+        }
+        console.log(this.leaveSchedule);
+        break;
+      default:
+        break;
+    }
   }
 
   close() {

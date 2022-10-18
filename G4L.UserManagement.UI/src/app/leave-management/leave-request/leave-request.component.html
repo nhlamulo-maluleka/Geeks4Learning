@@ -79,10 +79,31 @@
                 <h5 class="form-control-label">
                   Your leave request includes
                 </h5>
-                <p>
-                  {{ formModel.controls['startDate'].value | date: 'd MMM' }} - {{ formModel.controls['endDate'].value
-                  | date: 'd MMM' }}
-                </p>
+
+                <div class="row">
+                  <div class="col-9">
+                    {{ formModel.controls['startDate'].value | date: 'd MMM' }} - {{ formModel.controls['endDate'].value
+                    | date: 'd MMM' }}
+                  </div>
+                  <div class="col">
+                    <select formControlName="leaveDayDuration" class="leave-day-duration" (change)='onOptionsSelected($event)'>
+                      <option *ngFor="let item of keys(daysType)" [ngValue]="item">{{item | removeUnderscore }}</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="row" *ngFor="let leave of leaveSchedule">
+                  <div class="col-9">
+                    {{ leave.date | date: 'd MMM' }}
+                  </div>
+                  <div class="col">
+                    <select [(ngModel)]="leave.leaveDayType" class="leave-day-duration">
+                      <option *ngFor="let item of keys(daysType)" [ngValue]="leave.leaveDayType">{{item | removeUnderscore }}</option>
+                    </select>
+                  </div>
+                </div>
+
+
                 <p *ngIf="negativeDays" class="alert alert-danger">
                   <i class="fa-solid fa-triangle-exclamation"></i> Leave days exceeded
                 </p>
