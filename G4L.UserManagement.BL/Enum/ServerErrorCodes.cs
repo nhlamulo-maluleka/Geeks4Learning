@@ -12,6 +12,7 @@ namespace G4L.UserManagement.BL.Enum
         UserNotFound,
         DuplicateIdNumber,
         DuplicateEmail,
-        DuplicatePhoneNumber
+        DuplicatePhoneNumber,
+        DocumentsRequired
     }
 }

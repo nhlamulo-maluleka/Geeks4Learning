@@ -16,6 +16,7 @@ namespace G4L.UserManagement.DA.Services
         private readonly ILeaveRepository _leaveRepository;
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
+       
 
         public LeaveService(ILeaveRepository leaveRepository, IUserRepository userRepository, IMapper mapper)
         {

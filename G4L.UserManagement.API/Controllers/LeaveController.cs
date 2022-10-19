@@ -5,6 +5,7 @@ using G4L.UserManagement.BL.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace G4L.UserManagement.API.Controllers
@@ -35,9 +36,9 @@ namespace G4L.UserManagement.API.Controllers
             return Ok(leaveRequest);
         }
 
-
+        [AllowAnonymous]
         [HttpPost("PostSingleFile")]
-        public async Task<ActionResult> PostSingleFile([FromForm] UploadDocuments fileDetails)
+        public async Task<ActionResult> PostSingleFile([FromForm] DocumentRequest fileDetails)
         {
             if (fileDetails == null)
             {
@@ -46,7 +47,7 @@ namespace G4L.UserManagement.API.Controllers
 
             try
             {
-                await _uploadService.PostFileAsync(fileDetails.FileDetails, fileDetails.FileType);
+                await _uploadService.PostFileAsync(fileDetails.FileData, fileDetails.FileType);
                 return Ok();
             }
             catch (Exception)
@@ -54,6 +55,8 @@ namespace G4L.UserManagement.API.Controllers
                 throw;
             }
         }
+
+       
 
         [HttpGet("balances")]
         public async Task<IActionResult> GetAsync()

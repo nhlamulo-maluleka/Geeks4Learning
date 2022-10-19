@@ -15,6 +15,8 @@ namespace G4L.UserManagement.BL.Entities
         public byte[] FileData { get; set; }
         public FileType FileType { get; set; }
 
+    
+
 
     }
 }
