@@ -7,6 +7,22 @@
     </div>
   </div>
 
+  <div class="row mb-3">
+    <div class="col-4" *ngFor="let leaveBalance of leaveBalances">
+      <app-leave-balance-card>
+        <ng-container title>{{ leaveBalance?.balanceType }}</ng-container>
+          <ng-container total>{{ leaveBalance?.remaining }}</ng-container>
+          <ng-container icon>
+            <div class="chart-wrapper">
+              {{ setData(leaveBalance?.used, leaveBalance?.remaining) }}
+              <app-doughnut-chart [dataSet]="dataSet">
+              </app-doughnut-chart>
+          </div>
+          </ng-container>
+      </app-leave-balance-card>
+    </div>
+  </div>
+
   <div class="row">
     <div class="col-12">
       <div class="card mb-4">

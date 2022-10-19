@@ -10,7 +10,7 @@ namespace G4L.UserManagement.BL.Interfaces
     public interface ILeaveService
     {
         Task RequestLeaveAsync(LeaveRequest leaveRequest);
-        Task<dynamic> GetLeaveBalancesAsync();
+        Task<List<LeaveBalanceResponse>> GetLeaveBalancesAsync(Guid userId);
         Task<List<LeaveRequest>> GetLeaveRequestsAsync(Guid userId);
         Task UpdateLeaveStatusAsync(Guid id, Enum.Status status);
     }

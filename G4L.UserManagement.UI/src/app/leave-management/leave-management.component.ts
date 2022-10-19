@@ -17,6 +17,8 @@ export class LeaveManagementComponent implements OnInit {
   modalDialog: MdbModalRef<LeaveRequestComponent> | null = null;
   leaveApplications: any[] = [];
   user: any;
+  leaveBalances: any[] = [];
+  dataSet: any;
 
   constructor(
     private modalService: MdbModalService,
@@ -28,6 +30,15 @@ export class LeaveManagementComponent implements OnInit {
   ngOnInit(): void {
     this.user = this.tokenService.getDecodeToken();
     this.getLeaveApplication(this.user?.id);
+    this.getLeaveBalances(this.user?.id);
+  }
+
+  getLeaveBalances(userId: any) {
+    this.leaveService.getLeaveBalances(userId)
+      .subscribe((response: any) => {
+        console.log(response);
+        this.leaveBalances = response;
+      });
   }
 
   getLeaveApplication(userId: any) {
@@ -36,7 +47,6 @@ export class LeaveManagementComponent implements OnInit {
         console.log(arg);
         this.leaveApplications = arg;
       });
-    ;
   }
 
   openDialog() {
@@ -64,6 +74,10 @@ export class LeaveManagementComponent implements OnInit {
         this.getLeaveApplication(this.user?.id)
       );
 
+  }
+
+  setData(used: number, remaining: number) {
+    this.dataSet = { used, remaining };
   }
 
 }

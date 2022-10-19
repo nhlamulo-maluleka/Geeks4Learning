@@ -21,6 +21,6 @@ namespace G4L.UserManagement.BL.Entities
         public DateTime LearnershipStartDate { get; set; }
         [JsonIgnore]
         public string PasswordHash { get; set; }
-        public ICollection<Leave> Leaves { get; set; }
+        public List<Leave> Leaves { get; set; }
     }
 }
