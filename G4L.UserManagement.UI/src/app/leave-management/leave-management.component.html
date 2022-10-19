@@ -11,11 +11,15 @@
     <div class="col-4" *ngFor="let leaveBalance of leaveBalances">
       <app-leave-balance-card>
         <ng-container title>{{ leaveBalance?.balanceType }}</ng-container>
-          <ng-container total>{{ leaveBalance?.remaining }}</ng-container>
-          <ng-container icon>
+          <ng-container total>
+            <p [style.color]="getPrimaryColor(leaveBalance?.balanceType)">Remaining</p>
+            <br>
+            {{ leaveBalance?.remaining }}
+          </ng-container>
+          <ng-container chart>
             <div class="chart-wrapper">
               {{ setData(leaveBalance?.used, leaveBalance?.remaining) }}
-              <app-doughnut-chart [dataSet]="dataSet">
+              <app-doughnut-chart [dataSet]="dataSet" [primaryColor]="getPrimaryColor(leaveBalance?.balanceType)">
               </app-doughnut-chart>
           </div>
           </ng-container>
@@ -115,6 +119,16 @@
                 </tr>
               </tbody>
             </table>
+            <!--Added Pagination-->
+            <!-- <nav aria-label="Page navigation example" style="Margin-top:20px; Margin-left:20px">
+              <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+              </ul>
+            </nav> -->
           </div>
         </div>
       </div>

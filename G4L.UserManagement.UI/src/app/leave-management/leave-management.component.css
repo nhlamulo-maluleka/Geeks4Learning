@@ -181,3 +181,9 @@
   padding-left: 1rem !important;
   padding-right: 1rem !important;
 }
+
+.chart-wrapper {
+  position: absolute;
+  right: 0px;
+  top: 5px;
+}

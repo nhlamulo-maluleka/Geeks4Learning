@@ -80,4 +80,19 @@ export class LeaveManagementComponent implements OnInit {
     this.dataSet = { used, remaining };
   }
 
+  getPrimaryColor(balanceType: LeaveTypes) {
+    switch (balanceType) {
+      case LeaveTypes.Annual:
+        return '#2d572b';
+      case LeaveTypes.Sick:
+        return '#2d2b57';
+      case LeaveTypes.Family_Responsibility:
+        return '#2a5d6b';
+
+    }
+
+    return;
+  }
+
+
 }

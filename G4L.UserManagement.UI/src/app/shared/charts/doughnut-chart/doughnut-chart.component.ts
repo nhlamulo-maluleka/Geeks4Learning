@@ -9,6 +9,7 @@ import { ChartConfiguration } from 'chart.js';
 export class DoughnutChartComponent implements OnInit {
 
   @Input() dataSet: any;
+  @Input() primaryColor: any;
 
   // Doughnut
   public doughnutChartDatasets: ChartConfiguration<'doughnut'>['data']['datasets'] = [];
@@ -23,7 +24,22 @@ export class DoughnutChartComponent implements OnInit {
     console.log(this.dataSet);
 
     this.doughnutChartDatasets = [
-      { data: [ this.dataSet?.used, this.dataSet?.remaining ] }
+      {
+        data: [ this.dataSet?.used, this.dataSet?.remaining ],
+        backgroundColor: [
+          '#CCCCCC',
+          this.primaryColor
+        ],
+        hoverBackgroundColor: [
+          '#CCCCCC',
+          this.primaryColor
+        ],
+        hoverBorderColor: [
+          '#CCCCCC',
+          this.primaryColor
+        ],
+        borderWidth: 1
+      }
     ];
 
     this.doughnutChartOptions = {
