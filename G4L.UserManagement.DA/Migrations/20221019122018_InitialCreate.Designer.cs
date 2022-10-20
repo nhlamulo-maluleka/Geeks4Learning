@@ -10,8 +10,13 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace G4L.UserManagement.DA.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20221018090525_AlterLeaveTableAddUsedDays")]
-    partial class AlterLeaveTableAddUsedDays
+<<<<<<<< HEAD:G4L.UserManagement.DA/Migrations/20221013070746_Attachments.Designer.cs
+    [Migration("20221013070746_Attachments")]
+    partial class Attachments
+========
+    [Migration("20221019122018_InitialCreate")]
+    partial class InitialCreate
+>>>>>>>> origin/User-stories/US-208-see-learners-requests-as-admin:G4L.UserManagement.DA/Migrations/20221019122018_InitialCreate.Designer.cs
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -61,11 +66,14 @@ namespace G4L.UserManagement.DA.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<byte[]>("FileData")
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("FileName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FilePath")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("FileType")
+                        .HasColumnType("int");
 
                     b.Property<Guid?>("LeaveId")
                         .HasColumnType("uniqueidentifier");
@@ -183,13 +191,11 @@ namespace G4L.UserManagement.DA.Migrations
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Leave", b =>
                 {
-                    b.HasOne("G4L.UserManagement.BL.Entities.User", "User")
+                    b.HasOne("G4L.UserManagement.BL.Entities.User", null)
                         .WithMany("Leaves")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Leave", b =>
