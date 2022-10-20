@@ -17,8 +17,5 @@ namespace G4L.UserManagement.BL.Interfaces
 
         public Task<List<DocumentRequest>> GetDocumentsAsync(Guid Id);
 
-
-
-
     }
 }
