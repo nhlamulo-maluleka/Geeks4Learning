@@ -38,7 +38,7 @@ namespace G4L.UserManagement.API.Controllers
             return Ok(await _userService.GetPagedUsersAsync(skip, take));
         }
 
-        [Authorize(Role.Super_Admin, Role.Admin)]
+        [Authorize(Role.Super_Admin,Role.Admin)]
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody] RegisterRequest user)
         {

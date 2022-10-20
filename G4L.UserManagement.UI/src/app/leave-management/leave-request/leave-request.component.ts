@@ -131,6 +131,7 @@ export class LeaveRequestComponent implements OnInit {
     this.leaveService.applyForLeave(this.formModel.value).subscribe(_ => {
       this.toastr.success(`Your leave was successfully created.`);
       this.modalRef.close(true);
+    
     });
   }
 

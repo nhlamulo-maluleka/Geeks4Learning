@@ -11,6 +11,7 @@ export class TopNavComponent implements OnInit {
   navItems: string[] = [];
   url: string = '';
   username: string | null = null;
+  filterTerm!: string;
 
   constructor(private router: Router) {
     this.username = sessionStorage.getItem(contants.username);
@@ -23,10 +24,11 @@ export class TopNavComponent implements OnInit {
 
   }
 
-  ngOnInit(): void {}
-
+  ngOnInit(): void {console.log(this.filterTerm)}
+  
   logout() {
     sessionStorage.clear();
     window.location.reload();
   }
+  
 }

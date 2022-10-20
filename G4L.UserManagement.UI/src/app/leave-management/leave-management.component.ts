@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { ToastrService } from 'ngx-toastr';
+import { contants } from '../shared/global/global.contants';
 import { LeaveStatus } from '../shared/global/leave-status';
 import { LeaveTypes } from '../shared/global/leave-types';
+import { Roles } from '../shared/global/roles';
 import { TokenService } from '../usermanagement/login/services/token.service';
 import { LeaveRequestComponent } from './leave-request/leave-request.component';
 import { LeaveService } from './services/leave.service';
@@ -13,6 +15,9 @@ import { LeaveService } from './services/leave.service';
   styleUrls: ['./leave-management.component.css']
 })
 export class LeaveManagementComponent implements OnInit {
+  isAdmin: boolean | undefined;
+  isTrainer: boolean | undefined;
+  isLearner: boolean | undefined;
 
   modalDialog: MdbModalRef<LeaveRequestComponent> | null = null;
   leaveApplications: any[] = [];
@@ -28,6 +33,8 @@ export class LeaveManagementComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    const role = sessionStorage.getItem(contants.role);
+    this.determinRole(role);
     this.user = this.tokenService.getDecodeToken();
     this.getLeaveApplication(this.user?.id);
     this.getLeaveBalances(this.user?.id);
@@ -78,6 +85,21 @@ export class LeaveManagementComponent implements OnInit {
         this.getLeaveBalances(this.user?.id);
       });
 
+  }
+
+  determinRole(role: string | null) {
+    switch (role) {
+      case Roles.Super_Admin:
+      case Roles.Admin:
+        this.isAdmin = true;
+        break;
+      case Roles.Trainer:
+        this.isTrainer = true;
+        break;
+      case Roles.Learner:
+        this.isLearner = true;
+        break;
+    }
   }
 
   setData(used: number, remaining: number) {

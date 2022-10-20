@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace G4L.UserManagement.DA.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20221010114606_LeaveRequestTables")]
-    partial class LeaveRequestTables
+    [Migration("20221019122018_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -48,8 +48,6 @@ namespace G4L.UserManagement.DA.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("LeaveId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Approvers");
                 });
@@ -106,7 +104,13 @@ namespace G4L.UserManagement.DA.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("UsedDays")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -168,14 +172,6 @@ namespace G4L.UserManagement.DA.Migrations
                     b.HasOne("G4L.UserManagement.BL.Entities.Leave", null)
                         .WithMany("Approvers")
                         .HasForeignKey("LeaveId");
-
-                    b.HasOne("G4L.UserManagement.BL.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Document", b =>
@@ -189,7 +185,9 @@ namespace G4L.UserManagement.DA.Migrations
                 {
                     b.HasOne("G4L.UserManagement.BL.Entities.User", null)
                         .WithMany("Leaves")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Leave", b =>
