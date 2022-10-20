@@ -32,11 +32,11 @@ namespace G4L.UserManagement.API.Controllers
             return Ok(leaveRequest);
         }
 
-        [HttpGet("balances")]
-        public async Task<IActionResult> GetAsync()
+        [HttpGet("balances/{userId}")]
+        public async Task<IActionResult> GetLeaveBalanceAsync(Guid userId)
         {
-            var balances = await _leaveService.GetLeaveBalancesAsync();
-            return Ok();
+            var balances = await _leaveService.GetLeaveBalancesAsync(userId);
+            return Ok(balances);
         }
 
         [Authorize(Role.Learner)]

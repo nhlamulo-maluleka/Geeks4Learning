@@ -11,6 +11,7 @@ namespace G4L.UserManagement.BL.Enum
         Pending,
         Partially_Approved,
         Approved,
-        Rejected
+        Rejected,
+        Cancelled
     }
 }

@@ -22,7 +22,7 @@ namespace G4L.UserManagement.API.Controllers
         {
             _logger = logger;
             _userService = userService;
-        }
+        } 
 
         [Authorize(Role.Super_Admin, Role.Admin)]
         [HttpGet]

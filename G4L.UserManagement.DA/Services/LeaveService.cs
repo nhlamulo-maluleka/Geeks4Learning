@@ -3,6 +3,8 @@ using G4L.UserManagement.BL.Entities;
 using G4L.UserManagement.BL.Enum;
 using G4L.UserManagement.BL.Interfaces;
 using G4L.UserManagement.BL.Models;
+using G4L.UserManagement.Shared;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,18 +17,82 @@ namespace G4L.UserManagement.DA.Services
     {
         private readonly ILeaveRepository _leaveRepository;
         private readonly IUserRepository _userRepository;
+        private readonly AppSettings _appSettings;
         private readonly IMapper _mapper;
 
-        public LeaveService(ILeaveRepository leaveRepository, IUserRepository userRepository, IMapper mapper)
+        public LeaveService(ILeaveRepository leaveRepository, IUserRepository userRepository, IOptions<AppSettings> appSettings, IMapper mapper)
         {
             _leaveRepository = leaveRepository;
             _userRepository = userRepository;
+            _appSettings = appSettings.Value;
             _mapper = mapper;
         }
 
-        public Task<dynamic> GetLeaveBalancesAsync()
+        public async Task<List<LeaveBalanceResponse>> GetLeaveBalancesAsync(Guid userId)
         {
-            throw new NotImplementedException();
+            // get the leave history for the user
+            var leaves = await _leaveRepository.ListAsync(x => x.UserId == userId);
+            var user = await _userRepository.GetByIdAsync(userId);
+
+            //Used days
+            var usedAnnual = leaves.Where(x => x.LeaveType == LeaveType.Annual).Sum(x => x.UsedDays);
+            var usedSick = leaves.Where(x => x.LeaveType == LeaveType.Sick).Sum(x => x.UsedDays);
+            var usedFamilyResponsibility = leaves.Where(x => x.LeaveType == LeaveType.Family_Responsibility).Sum(x => x.UsedDays);
+
+            //get the leave days accumulated
+            var leaveBalance = new List<LeaveBalanceResponse>();
+
+            var annualLeaveDays = GetMonthsBetween(user.LearnershipStartDate, DateTime.Now) * _appSettings.LeaveDaysPerMonth;
+
+            //calculate the number of days
+            leaveBalance.Add(new LeaveBalanceResponse
+            {
+                BalanceType = LeaveType.Annual,
+                MaxAllowed = _appSettings.MaxAnnualAllowed,
+                AccumalatedLeaveDays = annualLeaveDays,
+                NegativeAllowedDays = _appSettings.MaxAnnualAllowed - annualLeaveDays,
+                Remaining = annualLeaveDays - usedAnnual,
+                Used= usedAnnual
+            });
+
+
+            leaveBalance.Add(new LeaveBalanceResponse
+            {
+                BalanceType = LeaveType.Family_Responsibility,
+                MaxAllowed = _appSettings.MaxFamilyResponsibility,
+                AccumalatedLeaveDays = _appSettings.MaxFamilyResponsibility,
+                NegativeAllowedDays = _appSettings.MaxFamilyResponsibility - usedFamilyResponsibility,
+                Remaining = _appSettings.MaxFamilyResponsibility - usedFamilyResponsibility,
+                Used = usedFamilyResponsibility
+            });
+
+            leaveBalance.Add(new LeaveBalanceResponse
+            {
+                BalanceType = LeaveType.Sick,
+                MaxAllowed = _appSettings.MaxSickAllowed,
+                AccumalatedLeaveDays = _appSettings.MaxSickAllowed,
+                NegativeAllowedDays = _appSettings.MaxSickAllowed - usedSick,
+                Remaining = _appSettings.MaxSickAllowed - usedSick,
+                Used = usedSick
+            });
+
+            return leaveBalance;
+        }
+
+        public static decimal GetMonthsBetween(DateTime from, DateTime to)
+        {
+            if (from > to) return GetMonthsBetween(to, from);
+
+            var monthDiff = Math.Abs((to.Year * 12 + (to.Month - 1)) - (from.Year * 12 + (from.Month - 1)));
+
+            if (from.AddMonths(monthDiff) > to || to.Day < from.Day)
+            {
+                return monthDiff - 1;
+            }
+            else
+            {
+                return monthDiff;
+            }
         }
 
         public async Task<List<LeaveRequest>> GetLeaveRequestsAsync(Guid userId)
@@ -38,7 +104,6 @@ namespace G4L.UserManagement.DA.Services
         public async Task RequestLeaveAsync(LeaveRequest leaveRequest)
         {
             var leave = _mapper.Map<Leave>(leaveRequest);
-            leave.User = await _userRepository.GetByIdAsync(leaveRequest.UserId);
             await _leaveRepository.CreateAsync(leave);
         }
 

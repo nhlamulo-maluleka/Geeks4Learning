@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { ToastrService } from 'ngx-toastr';
+import { LeaveStatus } from '../shared/global/leave-status';
+import { LeaveTypes } from '../shared/global/leave-types';
 import { TokenService } from '../usermanagement/login/services/token.service';
 import { LeaveRequestComponent } from './leave-request/leave-request.component';
 import { LeaveService } from './services/leave.service';
@@ -14,6 +16,9 @@ export class LeaveManagementComponent implements OnInit {
 
   modalDialog: MdbModalRef<LeaveRequestComponent> | null = null;
   leaveApplications: any[] = [];
+  user: any;
+  leaveBalances: any[] = [];
+  dataSet: any;
 
   constructor(
     private modalService: MdbModalService,
@@ -23,8 +28,17 @@ export class LeaveManagementComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    let user: any = this.tokenService.getDecodeToken();
-    this.getLeaveApplication(user.id);
+    this.user = this.tokenService.getDecodeToken();
+    this.getLeaveApplication(this.user?.id);
+    this.getLeaveBalances(this.user?.id);
+  }
+
+  getLeaveBalances(userId: any) {
+    this.leaveService.getLeaveBalances(userId)
+      .subscribe((response: any) => {
+        console.log(response);
+        this.leaveBalances = response;
+      });
   }
 
   getLeaveApplication(userId: any) {
@@ -33,7 +47,6 @@ export class LeaveManagementComponent implements OnInit {
         console.log(arg);
         this.leaveApplications = arg;
       });
-    ;
   }
 
   openDialog() {
@@ -52,8 +65,34 @@ export class LeaveManagementComponent implements OnInit {
     });
   }
 
-  cancelApplication(id: any) {
+  cancelApplication(leave: any) {
     // Cancl leave here
+    leave.status = LeaveStatus.Cancelled;
+
+    this.leaveService.updateLeave(leave)
+      .subscribe(_ =>
+        this.getLeaveApplication(this.user?.id)
+      );
+
   }
+
+  setData(used: number, remaining: number) {
+    this.dataSet = { used, remaining };
+  }
+
+  getPrimaryColor(balanceType: LeaveTypes) {
+    switch (balanceType) {
+      case LeaveTypes.Annual:
+        return '#2d572b';
+      case LeaveTypes.Sick:
+        return '#2d2b57';
+      case LeaveTypes.Family_Responsibility:
+        return '#2a5d6b';
+
+    }
+
+    return;
+  }
+
 
 }

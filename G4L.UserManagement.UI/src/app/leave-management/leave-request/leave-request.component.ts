@@ -58,7 +58,7 @@ export class LeaveRequestComponent implements OnInit {
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
       comments: [''],
-      leaveDayDuration: [],
+      usedDays: ['', Validators.required ],
       status: [ LeaveStatus.Pending ],
       approvers: this.formBuilder.array([
         {
@@ -78,7 +78,8 @@ export class LeaveRequestComponent implements OnInit {
 
   calculateDaysRequested() {
     let difference = new Date(this.formModel.get('endDate').value).getTime() - new Date(this.formModel.get('startDate').value).getTime();
-    return Math.ceil(difference / (1000 * 3600 * 24));
+    this.formModel.get('usedDays').patchValue(Number(Math.ceil(difference / (1000 * 3600 * 24))));
+    return Number(this.formModel.get('usedDays').value);
   }
 
   calculateDaysRemaining(): number | undefined {
