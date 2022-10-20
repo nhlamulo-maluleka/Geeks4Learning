@@ -1,8 +1,12 @@
-﻿using G4L.UserManagement.BL.Entities;
+﻿using AutoMapper;
+using G4L.UserManagement.BL.Entities;
 using G4L.UserManagement.BL.Enum;
 using G4L.UserManagement.BL.Interfaces;
 using G4L.UserManagement.BL.Models;
+using G4L.UserManagement.DA.Repositories;
+using G4L.UserManagement.Infrustructure.Repositories;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.VisualBasic.FileIO;
@@ -22,13 +26,13 @@ namespace G4L.UserManagement.DA.Services
     public class FileUploadService : IFileUploadService
     {
         private readonly DatabaseContext _databaseContext;
-       
+        private readonly IMapper _mapper;
 
-
-        public FileUploadService(DatabaseContext databaseContext)
+        public FileUploadService(DatabaseContext databaseContext, IMapper mapper)
         {
             _databaseContext = databaseContext;
-          
+            _mapper = mapper;
+
 
         }
         public async Task PostFileAsync(IFormFile fileData, FileType fileType)
@@ -67,7 +71,10 @@ namespace G4L.UserManagement.DA.Services
             
         }
 
-       
+        Task<List<DocumentRequest>> IFileUploadService.GetDocumentsAsync(Guid Id)
+        {
+            throw new NotImplementedException();
+        }
     }
     }
 

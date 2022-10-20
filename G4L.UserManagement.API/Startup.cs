@@ -8,6 +8,8 @@ using G4L.UserManagement.DA.Services;
 using G4L.UserManagement.Infrustructure.Repositories;
 using G4L.UserManagement.Infrustructure.Services;
 using G4L.UserManagement.Shared;
+using Google.Apis.Auth.AspNetCore3;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -73,6 +75,27 @@ namespace G4L.UserManagement.API
             services.AddScoped<ILeaveRepository, LeaveRepository>();
             services.AddScoped<IFileUploadService, FileUploadService>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
+            // This configures Google.Apis.Auth.AspNetCore3 for use in this app.
+            services
+                .AddAuthentication(o =>
+                {
+                    // This forces challenge results to be handled by Google OpenID Handler, so there's no
+                    // need to add an AccountController that emits challenges for Login.
+                    o.DefaultChallengeScheme = GoogleOpenIdConnectDefaults.AuthenticationScheme;
+                    // This forces forbid results to be handled by Google OpenID Handler, which checks if
+                    // extra scopes are required and does automatic incremental auth.
+                    o.DefaultForbidScheme = GoogleOpenIdConnectDefaults.AuthenticationScheme;
+                    // Default scheme that will handle everything else.
+                    // Once a user is authenticated, the OAuth2 token info is stored in cookies.
+                    o.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                })
+                .AddCookie()
+                .AddGoogleOpenIdConnect(options =>
+                {
+                    options.ClientId = Configuration["ClientId"];
+                    options.ClientSecret = Configuration["ClientSecret"];
+                });
 
         }
 

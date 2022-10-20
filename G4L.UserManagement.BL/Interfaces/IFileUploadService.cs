@@ -14,7 +14,11 @@ namespace G4L.UserManagement.BL.Interfaces
     public interface IFileUploadService
     {
         public Task PostFileAsync(IFormFile fileData, FileType fileType);
-        
+
+        public Task<List<DocumentRequest>> GetDocumentsAsync(Guid Id);
+
+
+
 
     }
 }

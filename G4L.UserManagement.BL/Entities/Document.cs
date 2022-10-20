@@ -10,10 +10,12 @@ namespace G4L.UserManagement.BL.Entities
 {
     public class Document : BaseEntity
     {
-        
+       
+
         public string FileName { get; set; }
         public byte[] FileData { get; set; }
         public FileType FileType { get; set; }
+        public LeaveType LeaveType{ get; set; }
 
     
 

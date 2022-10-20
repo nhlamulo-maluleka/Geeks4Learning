@@ -2,10 +2,15 @@
 using G4L.UserManagement.BL.Enum;
 using G4L.UserManagement.BL.Interfaces;
 using G4L.UserManagement.BL.Models;
+using Google.Apis.Auth.AspNetCore3;
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Drive.v3;
+using Google.Apis.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace G4L.UserManagement.API.Controllers
@@ -56,7 +61,23 @@ namespace G4L.UserManagement.API.Controllers
             }
         }
 
-       
+     
+
+
+
+        [GoogleScopedAuthorize(DriveService.ScopeConstants.DriveReadonly)]
+        [HttpGet("attachments")]
+        public async Task<IActionResult> DriveFileList([FromServices] IGoogleAuthProvider auth)
+        {
+            GoogleCredential cred = await auth.GetCredentialAsync();
+            var service = new DriveService(new BaseClientService.Initializer
+            {
+                HttpClientInitializer = cred
+            });
+            var files = await service.Files.List().ExecuteAsync();
+            var fileNames = files.Files.Select(x => x.Name).ToList();
+            return Ok(fileNames);
+        }
 
         [HttpGet("balances/{userId}")]
         public async Task<IActionResult> GetLeaveBalanceAsync(Guid userId)
