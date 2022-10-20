@@ -11,7 +11,7 @@
     <div class="col-12">
       <div class="card mb-4">
         <div class="card-header pb-0">
-          <h6>Leave history</h6>
+          <h6>Leave Requests</h6>
         </div>
         <div class="card-body px-0 pt-0 pb-2">
           <div class="table-responsive p-0">
@@ -23,68 +23,49 @@
                   >
                     Name
                   </th> -->
-                  <th
-                    class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2"
-                  >
-                    Leave Type
+
+                  <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">
+                    DATE
                   </th>
-                  <th
-                    class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2"
-                  >
-                    Date
+                  <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">
+                    STATUS
                   </th>
-                  <th
-                    class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2"
-                  >
-                    Status
+                  <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">
+                    LEAVETYPE
                   </th>
-                  <th
-                    class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2"
-                  >
-                    Comments
+                  <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">
+                    COMMENTS
                   </th>
-                  <th
-                    class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2"
-                  ></th>
+                  <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2"></th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let application of leaveApplications">
+
                   <td class="align-middle text-xs ps-2">
-                    <p class="font-weight-bold mb-0">{{ application?.leaveType }}</p>
-                  </td>
-                  <td class="align-middle text-xs ps-2">
-                    <p class="font-weight-bold mb-0">{{ application?.startDate | date: 'dd MMM YYYY' }} - {{ application?.endDate  | date: 'dd MMM YYYY' }}</p>
+                    <p class="font-weight-bold mb-0">{{ application?.startDate | date: 'dd MMM YYYY' }} - {{
+                      application?.endDate | date: 'dd MMM YYYY' }}</p>
                   </td>
                   <td class="align-middle text-xs ps-2">
                     <p class="font-weight-bold mb-0">{{ application?.status }} </p>
                   </td>
                   <td class="align-middle text-xs ps-2">
+                    <p class="font-weight-bold mb-0">{{ application?.leaveType }} </p>
+                  </td>
+                  <td class="align-middle text-xs ps-2">
                     <p class="font-weight-bold mb-0">{{ application?.comments }} </p>
                   </td>
+
                   <td class="align-middle dropdown">
-                    <button
-                      class="btn btn-link text-secondary mb-0 dropdown-toggle"
-                      type="button"
-                      id="dropdownMenuButton1"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      <i
-                        aria-hidden="true"
-                        class="fa fa-ellipsis-v text-xs"
-                      ></i>
+                    <button class="btn btn-link text-secondary mb-0 dropdown-toggle" type="button"
+                      id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i aria-hidden="true" class="fa fa-ellipsis-v text-xs"></i>
                     </button>
 
-                    <ul
-                      class="dropdown-menu"
-                      aria-labelledby="dropdownMenuButton1"
-                    >
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                       <li>
                         <a class="dropdown-item" (click)="cancelApplication(application?.id)">
-                          <i class="fa-solid fa-user-pen text-xs"></i
-                          >&nbsp;&nbsp;Cancel leave</a
-                        >
+                          <i class="fa-solid fa-user-pen text-xs"></i>&nbsp;&nbsp;Cancel leave</a>
                       </li>
                     </ul>
                   </td>
@@ -96,5 +77,4 @@
       </div>
     </div>
   </div>
-
 </div>

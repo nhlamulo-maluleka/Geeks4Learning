@@ -2,13 +2,9 @@
   <div class="row align-items-center mb-4">
     <div class="col-8"></div>
     <div class="col-4 text-end">
-      <a
-        class="btn btn-sm bg-2 gradient-primary mb-0 btn-dark"
-        (click)="openDialog()"
-      >
+      <a class="btn btn-sm bg-2 gradient-primary mb-0 btn-dark" (click)="openDialog()">
         <i class="fas fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Add new
-        user</a
-      >
+        user</a>
     </div>
   </div>
   <div class="row">
@@ -22,34 +18,22 @@
             <table class="table align-items-center mb-0">
               <thead>
                 <tr>
-                  <th
-                    class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7"
-                  >
+                  <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
                     Details
                   </th>
-                  <th
-                    class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2"
-                  >
+                  <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">
                     ID Number
                   </th>
-                  <th
-                    class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2"
-                  >
+                  <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">
                     Role
                   </th>
-                  <th
-                    class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2"
-                  >
+                  <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">
                     Stream
                   </th>
-                  <th
-                    class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2"
-                  >
+                  <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">
                     Start date
                   </th>
-                  <th
-                    class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2"
-                  ></th>
+                  <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2"></th>
                 </tr>
               </thead>
               <tbody>
@@ -100,34 +84,19 @@
                     </p>
                   </td>
                   <td class="align-middle dropdown">
-                    <button
-                      class="btn btn-link text-secondary mb-0 dropdown-toggle"
-                      type="button"
-                      id="dropdownMenuButton1"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      <i
-                        aria-hidden="true"
-                        class="fa fa-ellipsis-v text-xs"
-                      ></i>
+                    <button class="btn btn-link text-secondary mb-0 dropdown-toggle" type="button"
+                      id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i aria-hidden="true" class="fa fa-ellipsis-v text-xs"></i>
                     </button>
 
-                    <ul
-                      class="dropdown-menu"
-                      aria-labelledby="dropdownMenuButton1"
-                    >
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                       <li>
                         <a class="dropdown-item" (click)="openDialog(user)">
-                          <i class="fa-solid fa-user-pen text-xs"></i
-                          >&nbsp;&nbsp;Edit User</a
-                        >
+                          <i class="fa-solid fa-user-pen text-xs"></i>&nbsp;&nbsp;Edit User</a>
                       </li>
                       <li>
                         <a class="dropdown-item" (click)="deleteUser(user?.id)">
-                          <i class="fa-solid fa-user-pen text-xs"></i
-                          >&nbsp;&nbsp;Delete User</a
-                        >
+                          <i class="fa-solid fa-user-pen text-xs"></i>&nbsp;&nbsp;Delete User</a>
                       </li>
                       <!-- <li>
                         <a class="dropdown-item" href="#"

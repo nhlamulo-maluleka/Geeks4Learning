@@ -86,7 +86,8 @@
                     | date: 'd MMM' }}
                   </div>
                   <div class="col">
-                    <select formControlName="leaveDayDuration" class="leave-day-duration" (change)='onOptionsSelected($event)'>
+                    <select formControlName="leaveDayDuration" class="leave-day-duration"
+                      (change)='onOptionsSelected($event)'>
                       <option *ngFor="let item of keys(daysType)" [ngValue]="item">{{item | removeUnderscore }}</option>
                     </select>
                   </div>
@@ -98,7 +99,8 @@
                   </div>
                   <div class="col">
                     <select [(ngModel)]="leave.leaveDayType" class="leave-day-duration">
-                      <option *ngFor="let item of keys(daysType)" [ngValue]="leave.leaveDayType">{{item | removeUnderscore }}</option>
+                      <option *ngFor="let item of keys(daysType)" [ngValue]="leave.leaveDayType">{{item |
+                        removeUnderscore }}</option>
                     </select>
                   </div>
                 </div>
