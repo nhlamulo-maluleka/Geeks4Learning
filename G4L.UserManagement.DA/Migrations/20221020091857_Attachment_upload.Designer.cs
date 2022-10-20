@@ -10,13 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace G4L.UserManagement.DA.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-<<<<<<<< HEAD:G4L.UserManagement.DA/Migrations/20221013070746_Attachments.Designer.cs
-    [Migration("20221013070746_Attachments")]
-    partial class Attachments
-========
-    [Migration("20221019122018_InitialCreate")]
-    partial class InitialCreate
->>>>>>>> origin/User-stories/US-208-see-learners-requests-as-admin:G4L.UserManagement.DA/Migrations/20221019122018_InitialCreate.Designer.cs
+    [Migration("20221020091857_Attachment_upload")]
+    partial class Attachment_upload
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -77,6 +72,9 @@ namespace G4L.UserManagement.DA.Migrations
 
                     b.Property<Guid?>("LeaveId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("LeaveType")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");

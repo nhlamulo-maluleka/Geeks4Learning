@@ -39,13 +39,11 @@ namespace G4L.UserManagement.DA.Services
         {
 
      
-
+            
 
             try
                 {
               
-
-
                     var fileDetails = new Document()
                     {
                       

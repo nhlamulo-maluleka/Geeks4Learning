@@ -71,6 +71,9 @@ namespace G4L.UserManagement.DA.Migrations
                     b.Property<Guid?>("LeaveId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("LeaveType")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
 
