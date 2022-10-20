@@ -78,9 +78,23 @@ export class LeaveRequestComponent implements OnInit {
   }
 
   calculateDaysRequested() {
-    let difference = new Date(this.formModel.get('endDate').value).getTime() - new Date(this.formModel.get('startDate').value).getTime();
-    this.formModel.get('usedDays').patchValue(Number(Math.ceil(difference / (1000 * 3600 * 24))));
+    let difference = this.getBusinessDatesCount(this.formModel.get('startDate').value, this.formModel.get('endDate').value);
+    this.formModel.get('usedDays').patchValue(difference);
     return Number(this.formModel.get('usedDays').value);
+  }
+
+  getBusinessDatesCount(startDate: any, endDate: any) {
+    let count = 0;
+    let curDate = +startDate;
+    while (curDate <= +endDate) {
+      const dayOfWeek = new Date(curDate).getDay();
+      const isWeekend = (dayOfWeek === 6) || (dayOfWeek === 0);
+      if (!isWeekend) {
+        count++;
+      }
+      curDate = curDate + 24 * 60 * 60 * 1000
+    }
+    return count;
   }
 
   calculateDaysRemaining(): number | undefined {
@@ -115,8 +129,10 @@ export class LeaveRequestComponent implements OnInit {
   }
 
   applyForLeave() {
-    this.leaveService.applyForLeave(this.formModel.value).subscribe((response: any) => {
-      this.toastr.success("Your request has been sent!");
+    this.leaveService.applyForLeave(this.formModel.value).subscribe(_ => {
+      this.toastr.success(`Your leave was successfully created.`);
+      this.modalRef.close(true);
+    
     });
   }
 
