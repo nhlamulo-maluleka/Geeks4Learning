@@ -52,4 +52,9 @@ export class LeaveService {
     return this.http.get(`${environment.apiUrl}/leave/balances/${userId}`);
   }
 
+  uploadAttachments(value: any) : Observable <any> {
+
+     return this.http.post(`${environment.apiUrl}/Leave/PostSingleFile`, value);
+  }
+
 }

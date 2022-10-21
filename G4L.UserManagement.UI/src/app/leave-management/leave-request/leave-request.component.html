@@ -164,20 +164,24 @@
         <!-- attachments/ supporting documents -->
 
         <div class="row mt-3">
-
           <div class="col">
-
-            <div class=" mt-3 form-group">
-              <label class="form-control-label" for="input-documents" [ngClass]="{
+            <label> Attachments </label>
+            <div class="form-group rounded-pill " >
+              <label  class="form-control-label"
+                for="input-documents" [ngClass]="{
                   'red-text':
                     formModel.controls['documents'].invalid &&
                     formModel.controls['documents'].touched
-                }">documents
+                }"><i class="fa-solid fa-paperclip fa-3x text-gray
+                
+                
+                "></i> <strong class="block text-blue-400 font-normal">Upload a file</strong>
+         
+                
 
-                <input type="file" style="visibility: hidden; " />
+                <input type="file" style="visibility: hidden ;" multiple/>
               </label>
-
-           
+            
 
               <input type="file" id="input-documents" class="form-control attachments" formControlName="documents"
                 [ngClass]="{
@@ -196,6 +200,7 @@
             </div>
           </div>
         </div>
+
 
         <div class="row mt-3">
           <div class="col-6"></div>

@@ -25,17 +25,21 @@ namespace G4L.UserManagement.DA.Services
 {
     public class FileUploadService : IFileUploadService
     {
+        private readonly ILeaveRepository _leaveRepository;
+      
+        private readonly IFileRepository _fileRepository;
         private readonly DatabaseContext _databaseContext;
         private readonly IMapper _mapper;
 
-        public FileUploadService(DatabaseContext databaseContext, IMapper mapper)
+        public FileUploadService(DatabaseContext databaseContext, IMapper mapper, ILeaveRepository leaveRepository)
         {
             _databaseContext = databaseContext;
             _mapper = mapper;
-
+            _leaveRepository = leaveRepository;
+    
 
         }
-        public async Task PostFileAsync(IFormFile fileData, FileType fileType)
+        public async Task PostFileAsync(IFormFile fileData, FileType fileType, LeaveType leaveType)
         {
 
      
@@ -50,6 +54,8 @@ namespace G4L.UserManagement.DA.Services
 
                         FileName = fileData.FileName,
                         FileType = fileType,
+                        LeaveType = leaveType,
+                        
                     };
 
                     using (var stream = new MemoryStream())
@@ -69,10 +75,34 @@ namespace G4L.UserManagement.DA.Services
             
         }
 
-        Task<List<DocumentRequest>> IFileUploadService.GetDocumentsAsync(Guid Id)
+        public async Task DownloadFileById(Guid Id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var file = _databaseContext.Documents.Where(x => x.Id == Id).FirstOrDefaultAsync();
+
+                var content = new System.IO.MemoryStream(file.Result.FileData);
+                var path = Path.Combine(
+                   Directory.GetCurrentDirectory(), "FileDownloaded",
+                   file.Result.FileName);
+
+                await CopyStream(content, path);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
+
+        public async Task CopyStream(Stream stream, string downloadPath)
+        {
+            using (var fileStream = new FileStream(downloadPath, FileMode.Create, FileAccess.Write))
+            {
+                await stream.CopyToAsync(fileStream);
+            }
+        }
+
+
     }
     }
 

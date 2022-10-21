@@ -53,7 +53,7 @@ namespace G4L.UserManagement.API.Controllers
 
             try
             {
-                await _uploadService.PostFileAsync(fileDetails.FileData, fileDetails.FileType);
+                await _uploadService.PostFileAsync(fileDetails.FileData, fileDetails.FileType, fileDetails.LeaveType);
                 return Ok();
             }
             catch (Exception)
@@ -62,7 +62,23 @@ namespace G4L.UserManagement.API.Controllers
             }
         }
 
-     
+        [AllowAnonymous]
+        [HttpGet("DownloadFile")]
+        public async Task<ActionResult> DownloadFile(Guid id)
+        {
+          
+
+            try
+            {
+                await _uploadService.DownloadFileById(id);
+                return Ok();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
 
 
 
@@ -79,7 +95,8 @@ namespace G4L.UserManagement.API.Controllers
             var fileNames = files.Files.Select(x => x.Name).ToList();
             return Ok(fileNames);
         }
-
+     
+        
         [HttpGet("balances/{userId}")]
         public async Task<IActionResult> GetLeaveBalanceAsync(Guid userId)
         {

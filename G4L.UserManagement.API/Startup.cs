@@ -43,6 +43,7 @@ namespace G4L.UserManagement.API
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
             );
 
+         
             services.AddControllers();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
