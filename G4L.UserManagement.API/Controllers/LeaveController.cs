@@ -54,7 +54,7 @@ namespace G4L.UserManagement.API.Controllers
             try
             {
                 await _uploadService.PostFileAsync(fileDetails.FileData, fileDetails.FileType, fileDetails.LeaveType);
-                return Ok();
+                return Ok(fileDetails);
             }
             catch (Exception)
             {
@@ -70,8 +70,8 @@ namespace G4L.UserManagement.API.Controllers
 
             try
             {
-                await _uploadService.DownloadFileById(id);
-                return Ok();
+                var file = await _uploadService.DownloadFileById(id);
+                return Ok(file);
             }
             catch (Exception)
             {

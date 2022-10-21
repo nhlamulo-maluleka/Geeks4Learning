@@ -75,18 +75,19 @@ namespace G4L.UserManagement.DA.Services
             
         }
 
-        public async Task DownloadFileById(Guid Id)
+        public async Task<string> DownloadFileById(Guid Id)
         {
             try
             {
-                var file = _databaseContext.Documents.Where(x => x.Id == Id).FirstOrDefaultAsync();
+                var file = await _databaseContext.Documents.Where(x => x.Id == Id).FirstOrDefaultAsync();
 
-                var content = new System.IO.MemoryStream(file.Result.FileData);
-                var path = Path.Combine(
-                   Directory.GetCurrentDirectory(), "FileDownloaded",
-                   file.Result.FileName);
+                return Convert.ToBase64String(file.FileData);
+                //var content = new System.IO.MemoryStream(file.Result.FileData);
+                //var path = Path.Combine(
+                //   Directory.GetCurrentDirectory(), "FileDownloaded",
+                //   file.Result.FileName);
 
-                await CopyStream(content, path);
+                //await CopyStream(content, path);
             }
             catch (Exception)
             {
