@@ -1,6 +1,9 @@
+import { PendingCopy } from '@angular/cdk/clipboard';
 import { Component, OnInit } from '@angular/core';
+import { MAT_AUTOCOMPLETE_SCROLL_STRATEGY_FACTORY_PROVIDER } from '@angular/material/autocomplete';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { ToastrService } from 'ngx-toastr';
+import { any } from 'ramda';
 import { contants } from '../shared/global/global.contants';
 import { LeaveStatus } from '../shared/global/leave-status';
 import { LeaveTypes } from '../shared/global/leave-types';
@@ -8,6 +11,7 @@ import { Roles } from '../shared/global/roles';
 import { TokenService } from '../usermanagement/login/services/token.service';
 import { LeaveRequestComponent } from './leave-request/leave-request.component';
 import { LeaveService } from './services/leave.service';
+import { TotalPendingApprovalRejectionComponent } from './total-pending-approval-rejection/total-pending-approval-rejection.component';
 
 @Component({
   selector: 'app-leave-management',
@@ -30,7 +34,7 @@ export class LeaveManagementComponent implements OnInit {
     private toastr: ToastrService,
     private leaveService: LeaveService,
     private tokenService: TokenService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const role = sessionStorage.getItem(contants.role);
@@ -61,7 +65,7 @@ export class LeaveManagementComponent implements OnInit {
       animation: true,
       backdrop: true,
       containerClass: 'modal top fade modal-backdrop',
-      data: { },
+      data: {},
       ignoreBackdropClick: false,
       keyboard: true,
       modalClass: 'modal-xl modal-dialog-centered',
@@ -116,5 +120,21 @@ export class LeaveManagementComponent implements OnInit {
     return;
   }
 
+  getAllStatus(Status: any): any {
+    switch (Status) {
+      case LeaveStatus.Pending:
+        return "fa-solid fa-circle-pause ";
+      case LeaveStatus.Approved:
+        return "fa-regular fa-circle-check ";
+      case LeaveStatus.Rejected:
+        return "fa-regular fa-circle-xmark red-text";
+      case LeaveStatus.Partially_Approved:
+        return "fa-solid fa-circle-half-stroke ";
+      case LeaveStatus.Cancelled:
+        return "fa-solid fa-ban red-text ";
+      default:
+        return undefined;
+    }
+  }
 
 }
