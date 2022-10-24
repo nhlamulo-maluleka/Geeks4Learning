@@ -1,7 +1,7 @@
 import { LeaveTypes } from './../../shared/global/leave-types';
 import { LeaveDayType } from './../../shared/global/leave-day-type';
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { ToastrService } from 'ngx-toastr';
 import { TokenService } from 'src/app/usermanagement/login/services/token.service';
@@ -55,7 +55,7 @@ export class LeaveRequestComponent implements OnInit {
       leaveDayDuration: [ LeaveDayType.All_day ],
       leaveSchedule: this.formBuilder.array([]),
       comments: [''],
-      documents: ['', Validators.required],
+      documents: [''],
       usedDays: ['', Validators.required ],
       status: [ LeaveStatus.Pending ],
       approvers: this.formBuilder.array([
@@ -84,9 +84,7 @@ export class LeaveRequestComponent implements OnInit {
   }
 
   calculateDaysRequested() {
-    debugger;
     let days = 0;
-
     switch (this.formModel.get('leaveDayDuration').value) {
       case LeaveDayType.All_day:
         days = this.getBusinessDatesCount(this.formModel.get('startDate').value, this.formModel.get('endDate').value);
@@ -141,18 +139,24 @@ export class LeaveRequestComponent implements OnInit {
 
   applyForLeave() {
     //validate for attachments
-
-    if (this.leaveTypes.Sick && this.calculateDaysRequested() > 2) {
+    
+    this.formModel.markAllAsTouched();
+    
+    if (this.formModel.get('leaveType').value === LeaveTypes.Sick && Number(this.formModel.get('usedDays').value) > 1 || this.formModel.get('leaveType').value === LeaveTypes.Family_Responsibility) {
+     this.formModel.get('documents').setValidators(Validators.required); 
+     this.formModel.get('documents').updateValueAndValidity();
+     console.log ("please attach documents", this.formModel);
      
-     return console.log ("please attach documents");
     }
     
     //validation for family responsibility
-    if (this.leaveTypes.Family_Responsibility) {
+    if (this.formModel.get('leaveType').value === LeaveTypes.Family_Responsibility) {
      
-      return this.formModel.documents.required
+      return console.log ("please attach documents");
     
      } else
+
+     return;
 
     this.leaveService.applyForLeave(this.formModel.value).subscribe((response: any) => {
       // check for attachments and use the leaveId as reference response.leaveId

@@ -214,7 +214,7 @@
                   formModel.controls['documents'].invalid &&
                   formModel.controls['documents'].touched
                 ">
-                <div *ngIf="formModel.controls['documents'].errors.required">
+                <div class="red-text" *ngIf="formModel.controls['documents'].errors.required">
                   Please type your documents for the approvers
                 </div>
               </div>
