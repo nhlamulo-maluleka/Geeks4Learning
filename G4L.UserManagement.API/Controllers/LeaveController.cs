@@ -61,5 +61,11 @@ namespace G4L.UserManagement.API.Controllers
         {
             return Ok(await _leaveService.GetAllLeaveRequestsAsync());
         }
+        [Authorize(Role.Super_Admin, Role.Admin, Role.Trainer)]
+        [HttpGet("leave_paged")]
+        public async Task<IActionResult> Get(int skip = 0, int take = 5)
+        {
+            return Ok(await _leaveService.GetPagedLeaveRequestsAsync(skip, take));
+        }
     }
 }

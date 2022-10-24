@@ -12,9 +12,10 @@ import { TotalPendingApprovalRejectionComponent } from './total-pending-approval
 import { LeaveBalanceCardComponent } from './leave-balance-card/leave-balance-card.component';
 import { ChartsModule } from '../shared/charts/charts.module';
 import { NgChartsModule } from 'ng2-charts';
+import { LeaveHistoryCardComponent } from './leave-history-card/leave-history-card.component';
 
 @NgModule({
-  declarations: [ LeaveManagementComponent, LeaveRequestComponent, LeaveBalanceCardComponent,LearnerTableComponent,TotalPendingApprovalRejectionComponent ],
+  declarations: [LeaveManagementComponent, LeaveRequestComponent, LeaveBalanceCardComponent, LearnerTableComponent, TotalPendingApprovalRejectionComponent, LeaveHistoryCardComponent],
   imports: [
     CommonModule,
     HttpClientModule,

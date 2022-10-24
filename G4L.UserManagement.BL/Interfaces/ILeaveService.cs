@@ -15,5 +15,6 @@ namespace G4L.UserManagement.BL.Interfaces
         Task<List<LeaveRequest>> GetLeaveRequestsAsync(Guid userId);
         Task UpdateLeaveStatusAsync(Guid id, Enum.Status status);
         Task<IEnumerable<Leave>> GetAllLeaveRequestsAsync();
+        Task<IEnumerable<Leave>> GetPagedLeaveRequestsAsync(int skip, int take);
     }
 }

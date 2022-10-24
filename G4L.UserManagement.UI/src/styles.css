@@ -8,6 +8,7 @@
   --g4l-dark-blue: #002d44;
   --g4l-blue: #007fa3;
   --g4l-orange: #b76928;
+  --g4l-btn-approve:#344767;
 }
 
 /* You can add global styles to this file, and also import other style files */
@@ -1085,23 +1086,32 @@ aside#sidenav-main {
   opacity: 100% !important;
 }
 
-/* Sinovuyo Sikhisi */
+/* Sinovuyo Sikhisi
 .cardStyling{
-  width:17vw;
+  width:14vw;
 }
 .sizing{
-  width:75vw;
+  width:71vw;
   margin-left: 2%;
 }
 .boxes{
   margin-left: -4%;
 }
 .boxes1{
-  margin-left: 1%;
+  margin-left: .2%;
 }
-/* textArea */
+/* textArea 
 .text-area{
   margin-left: 1.8%;
 }
 /* textArea */
+.bg-approve {
+  background-color: var(--g4l-btn-approve);
+}
+.btn-reject {
+  color: var(--g4l-btn-approve);
+}
+.border-color{
+  border-color: var(--g4l-btn-approve);
+}
 /* Sinovuyo Sikhisi */

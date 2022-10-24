@@ -8,6 +8,9 @@ import { LeaveTypes } from 'src/app/shared/global/leave-types';
   providedIn: 'root'
 })
 export class LeaveService {
+  getPagedLeaveApplications(skip: any, take: any) {
+    return this.http.get(`${environment.apiUrl}/Leave/leave_paged?skip=${skip}&take=${take}`);
+  }
 
   //mimic the response the the server
   leaveBalance =  new BehaviorSubject<any>(undefined);

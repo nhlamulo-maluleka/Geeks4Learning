@@ -117,5 +117,10 @@ namespace G4L.UserManagement.DA.Services
         {
             return await _leaveRepository.ListAsync();
         }
+
+        public async Task<IEnumerable<Leave>> GetPagedLeaveRequestsAsync(int skip, int take)
+        {
+            return await (_leaveRepository.GetPagedListAsync(skip,take));
+        }
     }
 }
