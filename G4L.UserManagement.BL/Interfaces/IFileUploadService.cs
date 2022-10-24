@@ -13,7 +13,7 @@ namespace G4L.UserManagement.BL.Interfaces
 {
     public interface IFileUploadService
     {
-      Task PostFileAsync(IFormFile fileData, FileType fileType, LeaveType leaveType);
+      Task PostFileAsync(DocumentRequest document);
       Task<string> DownloadFileById(Guid Id);
       Task<IEnumerable<Document>> GetAllLeaveDocumentsAsync(Guid LeaveId);
 

@@ -9,6 +9,7 @@ using Google.Apis.Drive.v3;
 using Google.Apis.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +39,11 @@ namespace G4L.UserManagement.API.Controllers
         public async Task<IActionResult> PostAsync([FromBody] LeaveRequest leaveRequest)
         {
             _logger.Log(LogLevel.Information, $"applying for leave {leaveRequest.LeaveType}");
-            await _leaveService.RequestLeaveAsync(leaveRequest);
+            var leave = await _leaveService.RequestLeaveAsync(leaveRequest);
+            leaveRequest.Documents.ToList().ForEach(x => {
+                x.LeaveId = leave.Id;
+                 _uploadService.PostFileAsync(x);
+            });
             return Ok(leaveRequest);
         }
 
@@ -46,6 +51,7 @@ namespace G4L.UserManagement.API.Controllers
         [HttpPost("PostSingleFile")]
         public async Task<ActionResult> PostSingleFile([FromForm] DocumentRequest fileDetails)
         {
+            var res = JsonConvert.SerializeObject(fileDetails);
             if (fileDetails == null)
             {
                 return BadRequest();
@@ -53,7 +59,7 @@ namespace G4L.UserManagement.API.Controllers
 
             try
             {
-                await _uploadService.PostFileAsync(fileDetails.FileData, fileDetails.FileType, fileDetails.LeaveType);
+                await _uploadService.PostFileAsync(fileDetails);
                 return Ok(fileDetails);
             }
             catch (Exception)
@@ -86,21 +92,6 @@ namespace G4L.UserManagement.API.Controllers
             return Ok(await _uploadService.GetAllLeaveDocumentsAsync(LeaveId));
         }
 
-
-
-        [GoogleScopedAuthorize(DriveService.ScopeConstants.DriveReadonly)]
-        [HttpGet("attachments")]
-        public async Task<IActionResult> DriveFileList([FromServices] IGoogleAuthProvider auth)
-        {
-            GoogleCredential cred = await auth.GetCredentialAsync();
-            var service = new DriveService(new BaseClientService.Initializer
-            {
-                HttpClientInitializer = cred
-            });
-            var files = await service.Files.List().ExecuteAsync();
-            var fileNames = files.Files.Select(x => x.Name).ToList();
-            return Ok(fileNames);
-        }
      
         
         [HttpGet("balances/{userId}")]

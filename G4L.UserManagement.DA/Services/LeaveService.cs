@@ -102,10 +102,11 @@ namespace G4L.UserManagement.DA.Services
             return _mapper.Map<List<LeaveRequest>>(leaves);
         }
 
-        public async Task RequestLeaveAsync(LeaveRequest leaveRequest)
+        public async Task<LeaveRequest> RequestLeaveAsync(LeaveRequest leaveRequest)
         {
             var leave = _mapper.Map<Leave>(leaveRequest);
             await _leaveRepository.CreateAsync(leave);
+            return _mapper.Map<LeaveRequest>(leave);
         }
 
         public async Task UpdateLeaveStatusAsync(Guid id, Status status)

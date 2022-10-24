@@ -3,22 +3,12 @@ using G4L.UserManagement.BL.Entities;
 using G4L.UserManagement.BL.Enum;
 using G4L.UserManagement.BL.Interfaces;
 using G4L.UserManagement.BL.Models;
-using G4L.UserManagement.DA.Repositories;
-using G4L.UserManagement.Infrustructure.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.VisualBasic.FileIO;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Sockets;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 
@@ -28,60 +18,51 @@ namespace G4L.UserManagement.DA.Services
     {
         private readonly ILeaveRepository _leaveRepository;
         private readonly IFileRepository _fileRepository;
-        private readonly DatabaseContext _databaseContext;
         private readonly IMapper _mapper;
 
-        public FileUploadService(DatabaseContext databaseContext, IMapper mapper, ILeaveRepository leaveRepository, IFileRepository fileRepository)
+        public FileUploadService(IMapper mapper, ILeaveRepository leaveRepository, IFileRepository fileRepository)
         {
-            _databaseContext = databaseContext;
             _mapper = mapper;
             _leaveRepository = leaveRepository;
             _fileRepository = fileRepository;
-            
-    
-
         }
-        public async Task PostFileAsync(IFormFile fileData, FileType fileType, LeaveType leaveType)
+
+        public async Task PostFileAsync(DocumentRequest documentRequest)
         {
-
-       
-            
-
             try
+            {
+                var fileDetails = new Document()
                 {
-              
-                    var fileDetails = new Document()
-                    {
-                      
+                    FileName = documentRequest.LeaveType.ToString(),
+                    FileType = documentRequest.FileType,
+                    LeaveType = documentRequest.LeaveType,
+                    FileData = new byte[100]
+                };
 
-                        FileName = fileData.FileName,
-                        FileType = fileType,
-                        LeaveType = leaveType,
-                        
-                    };
+                //using (var stream = new MemoryStream())
+                //{
+                //    fileData.CopyTo(stream);
+                //    fileDetails.FileData = stream.ToArray();
+                //}
 
-                    using (var stream = new MemoryStream())
-                    {
-                        fileData.CopyTo(stream);
-                        fileDetails.FileData = stream.ToArray();
-                    }
+                await _fileRepository.CreateAsync(fileDetails);
 
+                //var result = _databaseContext.Add(fileDetails);
+                //await _databaseContext.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
 
-                var result = _databaseContext.Add(fileDetails);
-                    await _databaseContext.SaveChangesAsync();
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-            
         }
 
         public async Task<string> DownloadFileById(Guid Id)
         {
             try
             {
-                var file = await _databaseContext.Documents.Where(x => x.Id == Id).FirstOrDefaultAsync();
+                var file = await _fileRepository.GetByIdAsync(Id);
+                //var file = await _databaseContext.Documents.Where(x => x.Id == Id).FirstOrDefaultAsync();
 
                 return Convert.ToBase64String(file.FileData);
                 //var content = new System.IO.MemoryStream(file.Result.FileData);
@@ -105,10 +86,10 @@ namespace G4L.UserManagement.DA.Services
             }
         }
 
-        public async Task<IEnumerable<Document>>GetAllLeaveDocumentsAsync(Guid LeaveId)
+        public async Task<IEnumerable<Document>> GetAllLeaveDocumentsAsync(Guid LeaveId)
         {
             return await _fileRepository.ListAsync(x => x.LeaveId == LeaveId);
         }
     }
-    }
+}
 
