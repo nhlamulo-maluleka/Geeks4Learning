@@ -24,7 +24,7 @@ namespace G4L.UserManagement.DA
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // APPROVER HAS A RECURING LOOP TO THE USER TABLE
+            modelBuilder.Entity<Leave>().Property(x => x.UsedDays).HasPrecision(10, 2);
         }
 
 

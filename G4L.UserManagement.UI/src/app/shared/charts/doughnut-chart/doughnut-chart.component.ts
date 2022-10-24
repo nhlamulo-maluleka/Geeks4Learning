@@ -21,8 +21,6 @@ export class DoughnutChartComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.dataSet);
-
     this.doughnutChartDatasets = [
       {
         data: [ this.dataSet?.used, this.dataSet?.remaining ],
@@ -46,7 +44,6 @@ export class DoughnutChartComponent implements OnInit {
       responsive: false,
     };
 
-    console.log(this.doughnutChartOptions, this.doughnutChartDatasets);
   }
 
 }

@@ -35,9 +35,9 @@ namespace G4L.UserManagement.DA.Services
             var user = await _userRepository.GetByIdAsync(userId);
 
             //Used days
-            var usedAnnual = leaves.Where(x => x.LeaveType == LeaveType.Annual).Sum(x => x.UsedDays);
-            var usedSick = leaves.Where(x => x.LeaveType == LeaveType.Sick).Sum(x => x.UsedDays);
-            var usedFamilyResponsibility = leaves.Where(x => x.LeaveType == LeaveType.Family_Responsibility).Sum(x => x.UsedDays);
+            var usedAnnual = leaves.Where(x => x.LeaveType == LeaveType.Annual && x.Status != Status.Cancelled).Sum(x => x.UsedDays);
+            var usedSick = leaves.Where(x => x.LeaveType == LeaveType.Sick && x.Status != Status.Cancelled).Sum(x => x.UsedDays);
+            var usedFamilyResponsibility = leaves.Where(x => x.LeaveType == LeaveType.Family_Responsibility && x.Status != Status.Cancelled).Sum(x => x.UsedDays);
 
             //get the leave days accumulated
             var leaveBalance = new List<LeaveBalanceResponse>();

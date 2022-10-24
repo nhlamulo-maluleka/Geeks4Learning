@@ -1,3 +1,5 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
 /* Set global colors */
 :root {
   --red: #b00;
@@ -46,6 +48,14 @@
 /* Validation error styles */
 .red-text {
   color: var(--red);
+}
+
+.green-text {
+  color: green;
+}
+
+.g4l-green {
+  color: var(--g4l-green);
 }
 
 .red-border {
@@ -892,7 +902,7 @@ a {
 }
 
 .sidenav {
-  z-index: 1050;
+  z-index: 999;
 }
 
 .sidenav .navbar-brand,
@@ -1083,6 +1093,37 @@ aside#sidenav-main {
 
 .modal-backdrop.show {
   opacity: 100% !important;
+}
+
+.mat-form-field-flex {
+  width: 100%;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  background-color: #fff !important;
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 16px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 0.375rem !important;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  appearance: none;
+  padding: 0px !important;
+}
+
+.mat-form-field-appearance-fill .mat-form-field-infix {
+  padding: 0 10px !important;
+  position: relative;
+  bottom: 5px;
+}
+
+.mat-form-field-underline {
+  display: none !important;
+}
+
+.mat-form-field-wrapper {
+  padding-bottom: 0;
 }
 
 /* Sinovuyo Sikhisi */

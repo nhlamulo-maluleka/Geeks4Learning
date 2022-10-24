@@ -57,6 +57,7 @@ namespace G4L.UserManagement.Infrustructure.Repositories
             await _databaseContext.Users.AddAsync(user);
             await _databaseContext.SaveChangesAsync();
         }
+
         public async Task<User> GetByUserByEmailAsync(string email)
         {
             return await Task.Run(() =>
