@@ -43,7 +43,7 @@ namespace G4L.UserManagement.API.Controllers
             throw new NotImplementedException();
         }
 
-        [Authorize(Role.Super_Admin,Role.Admin)]
+        [Authorize(Role.Super_Admin, Role.Admin)]
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody] RegisterRequest user)
         {
