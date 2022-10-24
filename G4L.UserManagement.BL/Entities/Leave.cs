@@ -17,6 +17,7 @@ namespace G4L.UserManagement.BL.Entities
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public decimal UsedDays { get; set; }
+        public List<LeaveSchedule> LeaveSchedule { get; set; }
         public Status Status { get; set; }
         public string Comments { get; set; }
         public List<Approver> Approvers { get; set; }

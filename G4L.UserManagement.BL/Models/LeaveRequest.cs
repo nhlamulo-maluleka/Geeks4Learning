@@ -16,7 +16,8 @@ namespace G4L.UserManagement.BL.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public decimal UsedDays { get; set; }
-        //public List<Durations> Duration { get; set; }
+        public List<LeaveScheduleRequest> LeaveSchedule { get; set; }
+        //Itumeleng added this
         public String Comments { get; set; }
         public Status Status { get; set; } = Status.Pending;
         public ICollection<ApproverRequest> Approvers { get; set; }
