@@ -30,7 +30,7 @@ export class LeaveManagementComponent implements OnInit {
     private toastr: ToastrService,
     private leaveService: LeaveService,
     private tokenService: TokenService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const role = sessionStorage.getItem(contants.role);
@@ -61,14 +61,17 @@ export class LeaveManagementComponent implements OnInit {
       animation: true,
       backdrop: true,
       containerClass: 'modal top fade modal-backdrop',
-      data: { },
+      data: {},
       ignoreBackdropClick: false,
       keyboard: true,
       modalClass: 'modal-xl modal-dialog-centered',
     });
 
     this.modalDialog.onClose.subscribe((isUpdated: boolean) => {
-      if (isUpdated) return; // this.getLeaveRequest();
+      if (isUpdated) {
+        this.getLeaveApplication(this.user?.id);
+        this.getLeaveBalances(this.user?.id);
+      }
     });
   }
 
@@ -77,9 +80,10 @@ export class LeaveManagementComponent implements OnInit {
     leave.status = LeaveStatus.Cancelled;
 
     this.leaveService.updateLeave(leave)
-      .subscribe(_ =>
-        this.getLeaveApplication(this.user?.id)
-      );
+      .subscribe(_ => {
+        this.getLeaveApplication(this.user?.id);
+        this.getLeaveBalances(this.user?.id);
+      });
 
   }
 
@@ -110,7 +114,6 @@ export class LeaveManagementComponent implements OnInit {
         return '#2d2b57';
       case LeaveTypes.Family_Responsibility:
         return '#2a5d6b';
-
     }
 
     return;

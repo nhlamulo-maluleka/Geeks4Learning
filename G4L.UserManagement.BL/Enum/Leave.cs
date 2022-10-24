@@ -11,6 +11,6 @@ namespace G4L.UserManagement.BL.Enum
         Annual,
         Family_Responsibility,
         Sick,
-        Un_Paid
+        Unpaid
     }
 }

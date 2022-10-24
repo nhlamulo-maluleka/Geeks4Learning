@@ -48,25 +48,37 @@
 
             <!-- dates -->
             <div class="row mt-3">
-              <div class="form-group">
-                <label class="form-control-label" for="input-leaveType" [ngClass]="{
-                    'red-text':
-                      formModel.controls['startDate'].touched &&
-                      formModel.controls['endDate'].touched && negativeDays
-                  }">Dates <span class="red-text">*</span></label>
-                <div class="row date-range" [ngClass]="{
-                  'red-border':
-                  formModel.controls['startDate'].touched &&
-                  formModel.controls['endDate'].touched && negativeDays
-                }">
-                  <div class="col-6 p-0">
-                    <input type="date" formControlName="startDate" class="form-control date-control"
-                      placeholder="Start date">
-                  </div>
-                  <div class="col-6 p-0">
-                    <input type="date" formControlName="endDate" class="form-control date-control"
-                      placeholder="End date">
-                  </div>
+              <label class="form-control-label" for="input-date-range" [ngClass]="{
+                'red-text':
+                  formModel.controls['startDate'].invalid &&
+                  formModel.controls['startDate'].touched ||
+                  formModel.controls['endDate'].invalid &&
+                  formModel.controls['endDate'].touched
+              }">Date range<span class="red-text">*</span></label>
+              <mat-form-field appearance="fill" class="example-form-field">
+                <mat-date-range-input [rangePicker]="rangePicker">
+                  <input matStartDate placeholder="Start date" formControlName="startDate">
+                  <input matEndDate placeholder="End date" formControlName="endDate">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="rangePicker"></mat-datepicker-toggle>
+                <mat-date-range-picker #rangePicker>
+                  <mat-date-range-picker-actions>
+                    <button mat-button matDateRangePickerCancel>Cancel</button>
+                    <button mat-raised-button color="primary" matDateRangePickerApply>Apply</button>
+                  </mat-date-range-picker-actions>
+                </mat-date-range-picker>
+              </mat-form-field>
+
+              <div class="red-text" *ngIf="
+                formModel.controls['startDate'].invalid &&
+                formModel.controls['startDate'].touched ||
+                formModel.controls['endDate'].invalid &&
+                formModel.controls['endDate'].touched">
+                <div *ngIf="formModel.controls['startDate'].errors.required">
+                  Please select a start date
+                </div>
+                <div *ngIf="formModel.controls['endDate'].errors.required">
+                  Please select a end date
                 </div>
               </div>
             </div>
@@ -86,7 +98,8 @@
                     | date: 'd MMM' }}
                   </div>
                   <div class="col">
-                    <select formControlName="leaveDayDuration" class="leave-day-duration" (change)='onOptionsSelected($event)'>
+                    <select formControlName="leaveDayDuration" class="leave-day-duration"
+                      (change)='onOptionsSelected($event)'>
                       <option *ngFor="let item of keys(daysType)" [ngValue]="item">{{item | removeUnderscore }}</option>
                     </select>
                   </div>
@@ -98,7 +111,8 @@
                   </div>
                   <div class="col">
                     <select [(ngModel)]="leave.leaveDayType" class="leave-day-duration">
-                      <option *ngFor="let item of keys(daysType)" [ngValue]="leave.leaveDayType">{{item | removeUnderscore }}</option>
+                      <option *ngFor="let item of keys(daysType)" [ngValue]="leave.leaveDayType">{{item |
+                        removeUnderscore }}</option>
                     </select>
                   </div>
                 </div>
