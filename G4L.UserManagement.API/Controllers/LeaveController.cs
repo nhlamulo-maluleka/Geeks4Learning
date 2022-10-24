@@ -26,14 +26,14 @@ namespace G4L.UserManagement.API.Controllers
         private readonly ILogger<LeaveController> _logger;
         private readonly ILeaveService _leaveService;
 
-        public LeaveController(ILogger<LeaveController> logger, ILeaveService leaveService, IFileUploadService uploadService)
+        public LeaveController(ILogger<LeaveController> logger, ILeaveService leaveService, IFileUploadService FileUploadService)
         {
             _logger = logger;
             _leaveService = leaveService;
-            _uploadService = uploadService; 
+            _uploadService = FileUploadService; 
         }
 
-        [Authorize(Role.Learner)]
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody] LeaveRequest leaveRequest)
         {
@@ -79,6 +79,12 @@ namespace G4L.UserManagement.API.Controllers
             }
         }
 
+        [AllowAnonymous]
+        [HttpGet("Get all documents")]
+        public async Task<IActionResult> GetAllLeaveDocumentsAsync(Guid LeaveId)
+        {
+            return Ok(await _uploadService.GetAllLeaveDocumentsAsync(LeaveId));
+        }
 
 
 

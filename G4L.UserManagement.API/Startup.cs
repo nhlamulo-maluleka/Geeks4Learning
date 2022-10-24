@@ -75,6 +75,9 @@ namespace G4L.UserManagement.API
             services.AddScoped<ILeaveService, LeaveService>();
             services.AddScoped<ILeaveRepository, LeaveRepository>();
             services.AddScoped<IFileUploadService, FileUploadService>();
+            services.AddScoped<IFileRepository, FileRepository>();
+
+
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
             // This configures Google.Apis.Auth.AspNetCore3 for use in this app.

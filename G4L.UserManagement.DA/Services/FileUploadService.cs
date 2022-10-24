@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,23 +27,24 @@ namespace G4L.UserManagement.DA.Services
     public class FileUploadService : IFileUploadService
     {
         private readonly ILeaveRepository _leaveRepository;
-      
         private readonly IFileRepository _fileRepository;
         private readonly DatabaseContext _databaseContext;
         private readonly IMapper _mapper;
 
-        public FileUploadService(DatabaseContext databaseContext, IMapper mapper, ILeaveRepository leaveRepository)
+        public FileUploadService(DatabaseContext databaseContext, IMapper mapper, ILeaveRepository leaveRepository, IFileRepository fileRepository)
         {
             _databaseContext = databaseContext;
             _mapper = mapper;
             _leaveRepository = leaveRepository;
+            _fileRepository = fileRepository;
+            
     
 
         }
         public async Task PostFileAsync(IFormFile fileData, FileType fileType, LeaveType leaveType)
         {
 
-     
+       
             
 
             try
@@ -65,7 +67,7 @@ namespace G4L.UserManagement.DA.Services
                     }
 
 
-                    var result = _databaseContext.Add(fileDetails);
+                var result = _databaseContext.Add(fileDetails);
                     await _databaseContext.SaveChangesAsync();
                 }
                 catch (Exception)
@@ -103,7 +105,10 @@ namespace G4L.UserManagement.DA.Services
             }
         }
 
-
+        public async Task<IEnumerable<Document>>GetAllLeaveDocumentsAsync(Guid LeaveId)
+        {
+            return await _fileRepository.ListAsync(x => x.LeaveId == LeaveId);
+        }
     }
     }
 

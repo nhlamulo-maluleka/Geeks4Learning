@@ -12,6 +12,7 @@ import { TotalPendingApprovalRejectionComponent } from './total-pending-approval
 import { LeaveBalanceCardComponent } from './leave-balance-card/leave-balance-card.component';
 import { ChartsModule } from '../shared/charts/charts.module';
 import { NgChartsModule } from 'ng2-charts';
+import  { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @NgModule({
   declarations: [ LeaveManagementComponent, LeaveRequestComponent, LeaveBalanceCardComponent,LearnerTableComponent,TotalPendingApprovalRejectionComponent ],
@@ -24,7 +25,8 @@ import { NgChartsModule } from 'ng2-charts';
     MaterialModule,
     FormsModule,
     NgChartsModule,
-    ChartsModule
+    ChartsModule,
+    PdfViewerModule
   ]
 })
 export class LeaveManagementModule { }

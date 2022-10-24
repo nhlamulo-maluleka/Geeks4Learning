@@ -59,6 +59,7 @@ export class LeaveRequestComponent implements OnInit {
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
       comments: [''],
+      documents: ['', Validators.required],
       usedDays: ['', Validators.required ],
       status: [ LeaveStatus.Pending ],
       approvers: this.formBuilder.array([
@@ -73,7 +74,7 @@ export class LeaveRequestComponent implements OnInit {
           "comments": ""
         }
       ]), // How do we know who will approver
-      documents: [[]]
+      //documents: [[]]
     });
   }
 
@@ -129,8 +130,23 @@ export class LeaveRequestComponent implements OnInit {
   }
 
   applyForLeave() {
-    this.leaveService.applyForLeave(this.formModel.value).subscribe(_ => {
+    //validate for attachments
+
+    if (this.leaveTypes.Sick && this.calculateDaysRequested() > 2) {
+     
+     return console.log ("please attach documents");
+    }
     
+    //validation for family responsibility
+    if (this.leaveTypes.Family_Responsibility) {
+     
+      return this.formModel.documents.required
+    
+     } else
+
+    this.leaveService.applyForLeave(this.formModel.value).subscribe((response: any) => {
+      // check for attachments and use the leaveId as reference response.leaveId
+      this.leaveService.uploadAttachments({ leaveId: response.leaveId,  });
       this.toastr.success(`Your leave was successfully created.`);
       this.modalRef.close(true);
     
