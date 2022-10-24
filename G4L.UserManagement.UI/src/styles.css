@@ -1084,3 +1084,24 @@ aside#sidenav-main {
 .modal-backdrop.show {
   opacity: 100% !important;
 }
+
+/* Sinovuyo Sikhisi */
+.cardStyling{
+  width:17vw;
+}
+.sizing{
+  width:75vw;
+  margin-left: 2%;
+}
+.boxes{
+  margin-left: -4%;
+}
+.boxes1{
+  margin-left: 1%;
+}
+/* textArea */
+.text-area{
+  margin-left: 1.8%;
+}
+/* textArea */
+/* Sinovuyo Sikhisi */

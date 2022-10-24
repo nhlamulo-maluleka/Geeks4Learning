@@ -113,5 +113,9 @@ namespace G4L.UserManagement.DA.Services
             leave.Status = status;
             await _leaveRepository.UpdateAsync(leave);
         }
+        public async Task<IEnumerable<Leave>> GetAllLeaveRequestsAsync()
+        {
+            return await _leaveRepository.ListAsync();
+        }
     }
 }

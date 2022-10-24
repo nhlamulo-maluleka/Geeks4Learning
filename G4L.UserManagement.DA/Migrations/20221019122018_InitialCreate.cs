@@ -3,7 +3,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace G4L.UserManagement.DA.Migrations
 {
+<<<<<<<< HEAD:G4L.UserManagement.DA/Migrations/20221018090506_initialCreate.cs
     public partial class initialCreate : Migration
+========
+    public partial class InitialCreate : Migration
+>>>>>>>> User-stories/US-208-see-learners-requests-as-admin:G4L.UserManagement.DA/Migrations/20221019122018_InitialCreate.cs
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -39,6 +43,10 @@ namespace G4L.UserManagement.DA.Migrations
                     LeaveType = table.Column<int>(type: "int", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+<<<<<<<< HEAD:G4L.UserManagement.DA/Migrations/20221018090506_initialCreate.cs
+========
+                    UsedDays = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+>>>>>>>> User-stories/US-208-see-learners-requests-as-admin:G4L.UserManagement.DA/Migrations/20221019122018_InitialCreate.cs
                     Status = table.Column<int>(type: "int", nullable: false),
                     Comments = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),

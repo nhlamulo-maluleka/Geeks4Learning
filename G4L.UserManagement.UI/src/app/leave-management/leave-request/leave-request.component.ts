@@ -115,7 +115,7 @@ export class LeaveRequestComponent implements OnInit {
 
   applyForLeave() {
     this.leaveService.applyForLeave(this.formModel.value).subscribe((response: any) => {
-
+      this.toastr.success("Your request has been sent!");
     });
   }
 

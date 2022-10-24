@@ -1,0 +1,77 @@
+<div class="container-fluid py-4">
+
+  <div class="row align-items-center mb-4 containerSizing">
+    <div class="row">
+      <div class="col-12">
+        <div class="card mb-4">
+          <div class="card-header pb-0">
+            <h6>Leave requests</h6>
+          </div>
+          <div class="card-body px-0 pt-0 pb-2">
+            <div class="table-responsive p-0">
+              <table class="table align-items-center mb-0">
+                <thead>
+                  <tr>
+                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">
+                      NAME
+                    </th>
+                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">
+                      SPONSOR
+                    </th>
+                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">
+                      DATE
+                    </th>
+                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">
+                      STATUS
+                    </th>
+                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">
+                      LEAVE TYPE
+                    </th>
+                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2"></th>
+                  </tr>
+                </thead>
+                <tbody *ngFor="let requests of leaveApplications">
+                  <tr *ngFor="let user of users">
+                    <ng-container *ngIf="user.id == requests.userId">
+                      <td class="align-middle text-xs ps-2">
+                        <p class="text-secondary mb-0">
+                          {{user.name}} {{user.surname}}
+                        </p>
+                      </td>
+                      <td class="align-middle text-xs ps-2">
+                        <p class="text-secondary mb-0">
+                          {{user.client}}
+                        </p>
+                      </td>
+                      <td class="align-middle text-xs ps-2">
+                        <p class="font-weight-bold mb-0">
+                          {{ requests.startDate | date: 'dd MMM YYYY' }} - {{ requests.endDate | date: 'dd MMM YYYY' }}
+                        </p>
+                      </td>
+                      <td class="align-middle text-xs ps-2">
+                        <div>
+                          <p class="text-secondary mb-0"> {{requests.status}}</p>
+                        </div>
+                      </td>
+                      <td class="align-middle text-xs ps-2">
+                        <p class="text-secondary mb-0">
+                          {{requests.leaveType}}
+                        </p>
+                      </td>
+                      <td class="align-middle dropdown">
+                        <button class="btn btn-link text-secondary mb-0 dropdown-toggle" type="button"
+                          id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" (click)="openDialog(user.id)">
+
+                          <i aria-hidden="true" class="fa fa-ellipsis-v text-xs"></i>
+                        </button>
+                      </td>
+                    </ng-container>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

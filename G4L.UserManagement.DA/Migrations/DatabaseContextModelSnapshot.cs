@@ -181,13 +181,11 @@ namespace G4L.UserManagement.DA.Migrations
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Leave", b =>
                 {
-                    b.HasOne("G4L.UserManagement.BL.Entities.User", "User")
+                    b.HasOne("G4L.UserManagement.BL.Entities.User", null)
                         .WithMany("Leaves")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Leave", b =>
