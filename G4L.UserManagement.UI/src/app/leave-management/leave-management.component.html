@@ -3,7 +3,7 @@
   <div class="row align-items-center mb-4">
     <div class="col-8"></div>
     <div class="col-4 text-end">
-      <a class="btn btn-sm bg-2 gradient-primary mb-0 btn-dark text-uppercase" (click)="openDialog()">
+      <a class="btn btn-sm bg-2 gradient-primary mb-0 btn-dark text-uppercase" (click)="openDialog(leaveBalances)">
         Request a leave</a>
     </div>
   </div>
@@ -86,7 +86,9 @@
                     <p class="font-weight-bold mb-0">{{ application?.startDate | date: 'dd MMM YYYY' }} - {{ application?.endDate  | date: 'dd MMM YYYY' }}</p>
                   </td>
                   <td class="align-middle text-xs ps-2">
-                    <p class="font-weight-bold mb-0">{{ application?.status | removeUnderscore }} </p>
+                    <p class="font-weight-bold mb-0">
+                      <i class="fa-solid" [class]="getStatusIcon(application?.status)"></i>
+                      {{ application?.status | removeUnderscore }} </p>
                   </td>
                   <td class="align-middle text-xs ps-2">
                     <p class="font-weight-bold mb-0">{{ application?.comments }} </p>

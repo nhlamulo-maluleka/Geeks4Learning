@@ -8,7 +8,6 @@ import { LeaveTypes } from 'src/app/shared/global/leave-types';
   providedIn: 'root'
 })
 export class LeaveService {
-
   //mimic the response the the server
   leaveBalance =  new BehaviorSubject<any>(undefined);
 

@@ -13,7 +13,7 @@
       <hr class="horizontal dark my-4" />
     </div>
     <div class="card-body pt-0">
-      <form [formGroup]="formModel" autocomplete="off" (submit)="applyForLeave()">
+      <form [formGroup]="formModel" autocomplete="off">
         <div class="row">
           <div class="col p-3">
             <!-- Leave type -->
@@ -30,7 +30,8 @@
                         formModel.controls['leaveType'].invalid &&
                         formModel.controls['leaveType'].touched
                     }">
-                    <option *ngFor="let leaveType of keys(leaveTypes)" [ngValue]="leaveType">
+                    <option *ngFor="let leaveType of keys(leaveTypes)" [ngValue]="leaveType"
+                      [disabled]="isAllowed(leaveType) || isDefault(leaveType)">
                       {{ leaveType | removeUnderscore }}
                     </option>
                   </select>
@@ -56,9 +57,10 @@
                   formModel.controls['endDate'].touched
               }">Date range<span class="red-text">*</span></label>
               <mat-form-field appearance="fill" class="example-form-field">
-                <mat-date-range-input [rangePicker]="rangePicker">
+                <mat-date-range-input [rangePicker]="rangePicker" [dateFilter]="holidaysAndWeekendsDatesFilter">
                   <input matStartDate placeholder="Start date" formControlName="startDate">
-                  <input matEndDate placeholder="End date" formControlName="endDate">
+                  <input matEndDate placeholder="End date" formControlName="endDate"
+                  (dateChange)="dateRangeChange()">
                 </mat-date-range-input>
                 <mat-datepicker-toggle matSuffix [for]="rangePicker"></mat-datepicker-toggle>
                 <mat-date-range-picker #rangePicker>
@@ -92,31 +94,37 @@
                   Your leave request includes
                 </h5>
 
-                <div class="row">
+                <div class="row" *ngIf="isAllDay()">
                   <div class="col-9">
                     {{ formModel.controls['startDate'].value | date: 'd MMM' }} - {{ formModel.controls['endDate'].value
                     | date: 'd MMM' }}
                   </div>
                   <div class="col">
                     <select formControlName="leaveDayDuration" class="leave-day-duration"
-                      (change)='onOptionsSelected($event)'>
+                      (change)='onOptionsSelected()'>
                       <option *ngFor="let item of keys(daysType)" [ngValue]="item">{{item | removeUnderscore }}</option>
                     </select>
                   </div>
                 </div>
 
-                <div class="row" *ngFor="let leave of leaveSchedule">
-                  <div class="col-9">
-                    {{ leave.date | date: 'd MMM' }}
-                  </div>
-                  <div class="col">
-                    <select [(ngModel)]="leave.leaveDayType" class="leave-day-duration">
-                      <option *ngFor="let item of keys(daysType)" [ngValue]="leave.leaveDayType">{{item |
-                        removeUnderscore }}</option>
-                    </select>
+                <div formArrayName="leaveSchedule" *ngFor="let item of formModel.controls['leaveSchedule'].controls; let i = index">
+                  <div class="row" [formGroupName]="i">
+                    <div class="col">
+                      {{ getFormControl(item, 'date').value | date: 'd MMM' }}
+                    </div>
+                    <div class="col">
+                      <select formControlName="leaveDayType" class="leave-day-duration" (change)='updateUsedDays(i)'>
+                        <option *ngFor="let item of keys(daysType)" [ngValue]="item">{{item |
+                          removeUnderscore }}</option>
+                      </select>
+                    </div>
+                    <div class="col">
+                      <select formControlName="halfDaySchedule" class="leave-day-duration">
+                        <option *ngFor="let item of keys(halfDaySchedule)" [ngValue]="item">{{item | removeUnderscore }}</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
-
 
                 <p *ngIf="negativeDays" class="alert alert-danger">
                   <i class="fa-solid fa-triangle-exclamation"></i> Leave days exceeded
@@ -164,31 +172,44 @@
         <!-- attachments/ supporting documents -->
 
         <div class="row mt-3">
-          <div class="col">
-            <label> Attachments </label>
-            <div class="form-group rounded-pill " >
-              <label  class="form-control-label"
-                for="input-documents" [ngClass]="{
+          <div class="col-12">
+            <div class="form-group attachments" enctype="multipart/form-data">
+              <label class="form-control-label" for="input-documents" [ngClass]="{
                   'red-text':
                     formModel.controls['documents'].invalid &&
                     formModel.controls['documents'].touched
-                }"><i class="fa-solid fa-paperclip fa-3x text-gray
-                
-                
-                "></i> <strong class="block text-blue-400 font-normal">Upload a file</strong>
-         
-                
+                }">Attachments
 
-                <input type="file" style="visibility: hidden ;" multiple/>
+                <div class="attachment-block">
+                  <div class="row">
+                    <div class="col-5">
+                      <i class="fa-solid fa-paperclip paperclip"></i>
+                    </div>
+                    <div class="col text-justify">
+                      <h5 class="attachment-block-text">
+                        <span class="text-blue">Upload a file</span> or drag and drop
+                      </h5>
+                      <p>PDF, PNG, JPG up to 10MB</p>
+                    </div>
+                  </div>
+                </div>
               </label>
-            
-
-              <input type="file" id="input-documents" class="form-control attachments" formControlName="documents"
+              <input type="file" id="input-documents" formControlName="documents"
+                multiple="multiple"
                 [ngClass]="{
-                    'red-border':
-                      formModel.controls['documents'].invalid &&
-                      formModel.controls['documents'].touched
-                  }" style="display: none;">
+                  'red-border':
+                    formModel.controls['documents'].invalid &&
+                    formModel.controls['documents'].touched
+                }">
+
+                <div class="row mt-3">
+                  <div class="col">
+                    <div class="file-attachment">
+                      {{ formModel.controls['documents'].value }}
+                    </div>
+                  </div>
+                </div>
+
               <div class="red-text" *ngIf="
                   formModel.controls['documents'].invalid &&
                   formModel.controls['documents'].touched
@@ -205,12 +226,13 @@
         <div class="row mt-3">
           <div class="col-6"></div>
           <div class="col-3 text-end">
-            <a (click)="close()" class="btn btn-sm bg-2 gradient-primary mb-0 text-uppercase">
-              Cancel</a>
+            <button (click)="close()" class="btn btn-sm bg-2 gradient-primary mb-0 text-uppercase">
+              Cancel</button>
           </div>
           <div class="col-3 text-end">
-            <a (click)="applyForLeave()" class="btn btn-sm bg-2 gradient-primary mb-0 btn-dark text-uppercase">
-              Request</a>
+            <button (click)="applyForLeave()" [disabled]="negativeDays"
+              class="btn btn-sm bg-2 gradient-primary mb-0 btn-dark text-uppercase">
+              Request</button>
           </div>
         </div>
       </form>
