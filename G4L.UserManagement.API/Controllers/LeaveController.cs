@@ -48,7 +48,7 @@ namespace G4L.UserManagement.API.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("PostSingleFile")]
+        [HttpPost("Post_Attachmennts")]
         public async Task<ActionResult> PostSingleFile([FromForm] DocumentRequest fileDetails)
         {
             var res = JsonConvert.SerializeObject(fileDetails);
@@ -86,7 +86,7 @@ namespace G4L.UserManagement.API.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("Get all documents")]
+        [HttpGet("Get_Attachments/{LeaveId}")]
         public async Task<IActionResult> GetAllLeaveDocumentsAsync(Guid LeaveId)
         {
             return Ok(await _uploadService.GetAllLeaveDocumentsAsync(LeaveId));

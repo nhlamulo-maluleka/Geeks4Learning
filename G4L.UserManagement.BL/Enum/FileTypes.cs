@@ -8,7 +8,7 @@ namespace G4L.UserManagement.BL.Enum
     public enum FileType
     {
         PDF = 1,
-        DOCX = 2,
+        JPG = 2,
         PNG = 3,
 
     }
