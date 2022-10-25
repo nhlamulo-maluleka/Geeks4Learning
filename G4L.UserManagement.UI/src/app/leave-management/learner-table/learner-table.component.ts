@@ -16,15 +16,16 @@ export class LearnerTableComponent implements OnInit {
   modalDialog: MdbModalRef<LeaveComponent> | null = null;
   leaveApplications: any[] = [];
   users: any;
-  keys = Object.keys;
-  rows:any[]=[[1],[5],[10],[15],[20],[50],[100]];
+  prev: number = 0;
+  next: number = 0;
+  take: any = 5;
   constructor(private _leaveService: LeaveService, private _userService: UserService, private modalService: MdbModalService) { }
 
   ngOnInit(): void {
     this.getAllUsers(0, 5);
     this.getPagedRequests(0, 5);
   }
-  getPagedRequests(skip: number, take: number) {
+  getPagedRequests(skip: number, take: any) {
     this._leaveService.getPagedLeaveApplications(skip, take).subscribe((response: any) => {
       this.leaveApplications = response;
     })
@@ -63,8 +64,32 @@ export class LearnerTableComponent implements OnInit {
         undefined;
     }
   }
-  onOptionsSelected(event: any) {
-    
+  onChange(event: Event) {
+    this.getPagedRequests(0, (event.target as HTMLInputElement).value);
+    this.take = (event.target as HTMLInputElement).value;
   }
-
+  getPagesPrevious() {
+    if (this.next > 0) {
+      this.next -= 1;
+      this.getPagedRequests(this.next, this.take);
+    }
+  }
+  getPagesNext() {
+    if (this.next >= 0) {
+      this.next += 1;
+      this.getPagedRequests(this.next, this.take);
+    }
+  }
+  one() {
+    this.next = 0;
+    this.getPagedRequests(this.next, this.take);
+  }
+  two() {
+    this.next = 1;
+    this.getPagedRequests(this.next, this.take);
+  }
+  three() {
+    this.next = 2;
+    this.getPagedRequests(this.next, this.take);
+  }
 }

@@ -21,7 +21,7 @@
         <hr class="horizontal dark" />
         <!-- first row -->
         <div class="row p-3">
-            <div class="col-md-3 col-xl-3 boxes">
+            <div class="col-md-4 col-xl-4 boxes">
                 <div class="card-body">
                     <div class="row align-items-center no-gutters ">
                         <div class="col me-2">
@@ -41,7 +41,7 @@
             </div>
 
             <div class="col-md-3 col-xl-3 boxes1">
-                <div class="card shadow border-start-success py-2 cardStyling">
+                <div class=" py-2" style="border: .5px solid;">
                     <div class="card-body">
                         <div class="row align-items-center no-gutters">
                             <div class="col me-2">
@@ -58,7 +58,7 @@
                 </div>
             </div>
             <div class="col-md-3 col-xl-3 boxes1">
-                <div class="card shadow border-start-warning py-2 cardStyling">
+                <div class=" py-2" style="border: .5px solid;">
                     <div class="card-body">
                         <div class="row align-items-center no-gutters">
                             <div class="col me-2">
@@ -74,13 +74,14 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 col-xl-3 boxes1">
-                <div class="card shadow border-start-warning py-2 cardStyling">
+            <div class="col-md-2 col-xl-2 boxes1">
+                <div class="py-2"style="border: .5px solid;border-radius:30px;">
                     <div class="card-body">
                         <div class="row align-items-center no-gutters">
                             <div class="col me-2">
                                 <div class=" fw-bold text-xs mb-1"><span>
-                                        <p><i class="fa-solid" [class]="getIcons(requests.status)"></i> {{requests.status}}</p>
+                                        <p><i class="fa-solid" [class]="getIcons(requests.status)"></i>
+                                            {{requests.status}}</p>
                                     </span></div>
                             </div>
                         </div>
@@ -97,7 +98,7 @@
                         Leave type
                     </label>
                 </div>
-                <div class="row p-3">
+                <div class="row p-1">
                     <select disabled>
                         <option>{{requests.leaveType}}</option>
                     </select>
@@ -112,15 +113,15 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-5 col-xl-5">
-                        <div class="card bg-blue">
-                            <div class="card-body">
+                        <div class="">
+                            <div class="text-center" style="border: 1px solid;border-radius: 25px;">
                                 file.pdf
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-5 col-xl-5">
-                        <div class="card bg-blue">
-                            <div class="card-body">
+                        <div class="">
+                            <div class="text-center" style="border: 1px solid;border-radius: 25px;">
                                 image.jpg
                             </div>
                         </div>
@@ -138,9 +139,9 @@
                         From
                     </label>
                 </div>
-                <div class="row">
-                    <div class="card">
-                        <div class="card-body">
+                <div class="row p-1">
+                    <div class=""style="border: .5px solid;">
+                        <div class="">
                             <h6>Friday</h6>
                             <div class="row">
                                 <div class="col-lg-12 col-xl-12 ">September 23</div>
@@ -152,8 +153,8 @@
                 </div>
 
             </div>
-            <div class="col p-5">
-                <i class="fa-solid fa-arrow-right mt-4"></i>
+            <div class="col-lg-1 p-5">
+                <i class="fa-solid fa-arrow-right"></i>
             </div>
             <div class="col-lg-3 col-xl-3 me-5">
                 <div class="row">
@@ -161,9 +162,9 @@
                         To
                     </label>
                 </div>
-                <div class="row">
-                    <div class="card">
-                        <div class="card-body">
+                <div class="row p-1">
+                    <div class=""style="border: .5px solid;">
+                        <div class="">
                             <h6>Friday</h6>
                             <div class="row">
                                 <div class="col-lg-12 col-xl-12 text-secondary">September 23</div>
@@ -181,9 +182,9 @@
                         1 work day requested
                     </label>
                 </div>
-                <div class="row">
-                    <div class="card">
-                        <div class="card-body">
+                <div class="row p-1">
+                    <div class=""style="border: .5px solid;">
+                        <div class="">
                             <div class="row">
                                 <p><i class="fa-solid fa-pen"></i> propose a change</p>
                             </div>
@@ -252,7 +253,7 @@
                 <a type="submit" class="btn btn-reject border-color">Reject request</a>
             </div>
             <div class="col-2 text-end">
-                <a type="submit" class="btn bg-approve text-light">Approve request</a>
+                <a type="submit" class="btn btn-success bg-approve text-light">Approve request</a>
             </div>
         </div>
         <!-- /buttons -->

@@ -1137,3 +1137,7 @@ aside#sidenav-main {
   border-color: var(--g4l-btn-approve);
 }
 /* Sinovuyo Sikhisi */
+.list_page{
+  border-radius: 50px;
+  
+}

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LeaveStatus } from 'src/app/shared/global/leave-status';
 import { LeaveTypes } from 'src/app/shared/global/leave-types';
 import { UserService } from 'src/app/usermanagement/services/user.service';
+import { setInterval } from 'timers';
 import { LeaveService } from '../services/leave.service';
 
 @Component({
@@ -12,32 +13,33 @@ import { LeaveService } from '../services/leave.service';
 export class LeaveHistoryCardComponent implements OnInit {
   leaves: any;
   users: any;
+  skip: any = 0;
+  take: any = 2;
 
-  constructor(private leaveService:LeaveService,private userService:UserService) { }
+  constructor(private leaveService: LeaveService, private userService: UserService) { }
 
   ngOnInit(): void {
-    setTimeout(()=>{
-      this.getLeaves();
-    },100)
-    
+      this.getLeaves(this.skip, this.take);
+      this.skip += 1;
+
   }
-  getLeaves(){
-    this.leaveService.getAllLeaveApplications().subscribe((response:any)=>{
+  getLeaves(skip: number, take: number) {
+    this.leaveService.getPagedLeaveApplications(skip, take).subscribe((response: any) => {
       this.leaves = response;
     })
-    this.userService.getAllUsers().subscribe((response:any)=>{
+    this.userService.getPagedUsers(skip, take).subscribe((response: any) => {
       this.users = response;
     })
   }
-  getLeaveType(leaveType:any):any{
+  getLeaveType(leaveType: any): any {
     switch (leaveType) {
       case LeaveTypes.Annual:
-        return 'Annual Leave';    
+        return 'Annual Leave';
       default:
         undefined;
     }
   }
-  getLeaveStatus(leaveStatus:any):any{
+  getLeaveStatus(leaveStatus: any): any {
     switch (leaveStatus) {
       case LeaveStatus.Pending:
         return 'Mrs. M. Wilson';

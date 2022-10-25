@@ -7,6 +7,7 @@ import { LeaveTypes } from '../shared/global/leave-types';
 import { Roles } from '../shared/global/roles';
 import { TokenService } from '../usermanagement/login/services/token.service';
 import { LeaveRequestComponent } from './leave-request/leave-request.component';
+import { HolidaysService } from './services/holidays.service';
 import { LeaveService } from './services/leave.service';
 
 @Component({
@@ -24,12 +25,15 @@ export class LeaveManagementComponent implements OnInit {
   user: any;
   leaveBalances: any[] = [];
   dataSet: any;
+  holidays: any[] = [];
+
 
   constructor(
     private modalService: MdbModalService,
     private toastr: ToastrService,
     private leaveService: LeaveService,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private holidaysService:HolidaysService
   ) { }
 
   ngOnInit(): void {
@@ -38,8 +42,14 @@ export class LeaveManagementComponent implements OnInit {
     this.user = this.tokenService.getDecodeToken();
     this.getLeaveApplication(this.user?.id);
     this.getLeaveBalances(this.user?.id);
+    this.getHolidays();
   }
-
+  getHolidays() {
+    this.holidaysService.getHolidays().then((res: any) => {
+      this.holidays = res;
+      console.log("holidays " + this.holidays)
+    })
+  }
   getLeaveBalances(userId: any) {
     this.leaveService.getLeaveBalances(userId)
       .subscribe((response: any) => {
