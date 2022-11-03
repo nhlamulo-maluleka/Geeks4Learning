@@ -10,6 +10,7 @@ namespace G4L.UserManagement.BL.Enum
     {
         InCorrectEmail,
         UserNotFound,
+        SponsorNotFound,
         DuplicateIdNumber,
         DuplicateEmail,
         DuplicatePhoneNumber

@@ -27,7 +27,7 @@ namespace G4L.UserManagement.DA.Repositories
                 .Where(x => x.UserId == userId)
                 .Select(x => x.LeaveId)
                 .ToList();
-
+                
                 leaveIds.ForEach(leaveId =>
                 {
                     var leave = _databaseContext.Leaves

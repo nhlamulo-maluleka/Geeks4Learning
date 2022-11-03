@@ -21,6 +21,7 @@ namespace G4L.UserManagement.DA
         public DbSet<Document> Documents { get; set; }
         public DbSet<Leave> Leaves { get; set; }
         public DbSet<Approver> Approvers { get; set; }
+        public DbSet<Sponsor> Sponsors { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
