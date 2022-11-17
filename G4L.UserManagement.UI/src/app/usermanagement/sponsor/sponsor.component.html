@@ -1,0 +1,103 @@
+<div class="container-fluid m-0 p-0">
+  <div class="card m-0 p-0">
+    <div class="card-header">
+      <div class="col text-end">
+        <a (click)="close()" class="cursor-pointer">
+          <i class="fa-solid fa-xmark"></i>
+        </a>
+      </div>
+      <div class="row align-items-center">
+        <h6 class="mb-0">Sponsors Information</h6>
+      </div>
+    </div>
+    
+    <div class="container">
+      <div class="card-body px-0 pt-0 pb-2">
+        <div class="table-responsive p-0">
+          <table class="table align-items-center mb-0">
+            <thead>
+              <tr>
+                <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
+                  Details
+                </th>
+                <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">
+                  Description
+                </th>
+                <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">
+                  Image
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let sponsor of sponsors">
+                <td>
+                  <div class="d-flex">
+                    <div class="d-flex flex-column justify-content-center">
+                      <h6 class="mb-0 text-xs">{{ sponsor.name }}</h6>
+                    </div>
+                  </div>
+                </td>
+                <td class="align-middle text-xs ps-2">
+                  <p class="font-weight-bold mb-0">
+                    {{ sponsor.description }}
+                  </p>
+                </td>
+                <td class="align-middle text-xs ps-2">
+                  <p class="font-weight-bold mb-0">
+                    {{ sponsor.image }}
+                  </p>
+                </td>
+                <td class="align-middle dropdown">
+                  <button
+                    class="btn btn-link text-secondary mb-0"
+                    type="button"
+                    id="dropdownMenuButton"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <i aria-hidden="true" class="fa fa-ellipsis-v text-xs">
+                    </i>
+                  </button>
+                  <ul class="dropdown-menu"
+                    aria-labelledby="dropdownMenuButton1">
+                    <li>
+                      <a class="dropdown-item" (click)="updateSponsor()">
+                        <i class="fa-solid fa-pencil"></i>&nbsp;&nbsp;Edit Sponsor</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" (click)="deleteSponsor(sponsor?.id)">
+                        <i class="fa-solid fa-trash"></i>&nbsp;&nbsp;Delete Sponsor</a>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid m-0 p-0">
+    <div class="card m-0 p-0">
+    <div class="card-header">
+    <div class="row align-items-center">
+    <div class="col-8">
+    <div *ngIf="sponsor; else showAdd">
+    <h6 class="mb-0">Edit Sponsor</h6>
+    </div>
+    <ng-template #showAdd>
+    <h6 class="mb-0">Add Sponsor</h6>
+    </ng-template>
+    </div>
+    </div>
+    </div>
+    
+    <div class="card-body">
+    <form [formGroup]="formModel" autocapitalize="off" (submit)="addSponsor()">
+    <h6 class="heading-small text-muted mb-4">Sponsor information</h6>
+    </form>
+    </div>
+    </div>
+    </div>
+
+  </div>
+</div>

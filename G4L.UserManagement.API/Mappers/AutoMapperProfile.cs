@@ -16,6 +16,7 @@ namespace G4L.UserManagement.API.Mappers
             CreateMap<LeaveScheduleRequest, LeaveSchedule>().ReverseMap();
             CreateMap<Sponsor, SponsorResponse>().ReverseMap();
             CreateMap<RegisterSponsorRequest, Sponsor>().ReverseMap();
+            CreateMap<Attendance_Register, Attendance>().ReverseMap();
         }
     }
 }

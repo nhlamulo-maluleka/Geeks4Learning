@@ -22,6 +22,7 @@ namespace G4L.UserManagement.BL.Entities
         [JsonIgnore]
         public string PasswordHash { get; set; }
         public List<Leave> Leaves { get; set; }
+        public List<Attendance> Attendances { get; set; }
         public Sponsor Sponsor { get; set; }
     }
 }

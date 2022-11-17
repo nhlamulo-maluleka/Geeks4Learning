@@ -1,0 +1,9 @@
+.card-body {
+    padding: 1.5rem;
+  }
+
+  .container {
+    height: 350px;
+    overflow-y: scroll;
+   }
+  

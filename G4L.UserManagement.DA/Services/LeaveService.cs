@@ -139,5 +139,38 @@ namespace G4L.UserManagement.DA.Services
             var leave = _mapper.Map<Leave>(leaveRequest);
             await _leaveRepository.UpdateLeaveRequestAsync(leave);
         }
+
+        public async Task<List<ApproversBalanceResponse>> GetLeavesToApproveBalanceAsync(Guid userId)
+        {
+            var response = new List<ApproversBalanceResponse>();
+
+            var leaves = await GetLeavesToApproveAsync(userId);
+
+            response.Add(new ApproversBalanceResponse
+            {
+                Status = Status.Pending,
+                Total = leaves.Where(x => x.Status == Status.Pending).Count()
+            });
+
+            response.Add(new ApproversBalanceResponse
+            {
+                Status = Status.Approved,
+                Total = leaves.Where(x => x.Status == Status.Approved).Count()
+            });
+            
+            response.Add(new ApproversBalanceResponse
+            {
+                Status = Status.Partially_Approved,
+                Total = leaves.Where(x => x.Status == Status.Partially_Approved).Count()
+            });
+
+            response.Add(new ApproversBalanceResponse
+            {
+                Status = Status.Rejected,
+                Total = leaves.Where(x => x.Status == Status.Rejected).Count()
+            });
+
+            return response;
+        }
     }
 }

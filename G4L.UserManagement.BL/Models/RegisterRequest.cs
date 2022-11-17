@@ -1,6 +1,7 @@
 ﻿using G4L.UserManagement.BL.Entities;
 using G4L.UserManagement.BL.Enum;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace G4L.UserManagement.BL.Models
@@ -22,5 +23,6 @@ namespace G4L.UserManagement.BL.Models
         public DateTime LearnershipStartDate { get; set; }
         [Required]
         public string Password { get; set; }
+       
     }
 }
