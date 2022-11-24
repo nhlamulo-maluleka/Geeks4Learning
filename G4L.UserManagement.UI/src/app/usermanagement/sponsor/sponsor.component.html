@@ -13,7 +13,7 @@
     
     <div class="container">
       <div class="card-body px-0 pt-0 pb-2">
-        <div class="table-responsive p-0">
+        <div class="table">
           <table class="table align-items-center mb-0">
             <thead>
               <tr>
@@ -44,7 +44,9 @@
                 </td>
                 <td class="align-middle text-xs ps-2">
                   <p class="font-weight-bold mb-0">
-                    {{ sponsor.image }}
+                    <img id="image" 
+                        class="profile-image" 
+                        src="{{image}}" />
                   </p>
                 </td>
                 <td class="align-middle dropdown">
@@ -60,7 +62,7 @@
                   <ul class="dropdown-menu"
                     aria-labelledby="dropdownMenuButton1">
                     <li>
-                      <a class="dropdown-item" (click)="updateSponsor()">
+                      <a class="dropdown-item" (click)="openDialog(sponsor)">
                         <i class="fa-solid fa-pencil"></i>&nbsp;&nbsp;Edit Sponsor</a>
                     </li>
                     <li>
@@ -75,28 +77,138 @@
         </div>
       </div>
     </div>
-
+    <hr class="horizontal dark my-4">
+    <!-- Update/Add Sponsor table -->
     <div class="container-fluid m-0 p-0">
-    <div class="card m-0 p-0">
-    <div class="card-header">
-    <div class="row align-items-center">
-    <div class="col-8">
-    <div *ngIf="sponsor; else showAdd">
-    <h6 class="mb-0">Edit Sponsor</h6>
-    </div>
-    <ng-template #showAdd>
-    <h6 class="mb-0">Add Sponsor</h6>
-    </ng-template>
-    </div>
-    </div>
-    </div>
-    
-    <div class="card-body">
-    <form [formGroup]="formModel" autocapitalize="off" (submit)="addSponsor()">
-    <h6 class="heading-small text-muted mb-4">Sponsor information</h6>
-    </form>
-    </div>
-    </div>
+      <div class="card m-0 p-0">
+        <div class="card-header">
+          <div class="row align-items-center">
+            <div class="col-8">
+              <div *ngIf="sponsor; else showAdd">
+                <h6 class="mb-0">Update Sponsor</h6>
+              </div>
+              <ng-template #showAdd>
+                <h6 class="mb-0">Add Sponsor</h6>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      
+        <div class="card-body">
+          <form [formGroup]="formModel" autocapitalize="off" (submit)="addSponsor()">
+            <h6 class="heading-small text-muted mb-4">Enter Sponsor information</h6>
+            <div>
+              <div class="row mb-3">
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label 
+                    class="form-control-label" 
+                    for="input-name"
+                    [ngClass]="{
+                      'red-text':
+                      formModel.controls['Name'].invalid &&
+                      formModel.controls['Name'].touched}">
+                      Name</label>
+                    <input 
+                      type="text" 
+                      id="input-name" 
+                      class="form-control" 
+                      placeholder="Name" 
+                      formControlName="Name"
+                      [ngClass]="{
+                        'red-border':
+                        formModel.controls['Name'].invalid &&
+                        formModel.controls['Name'].touched}">
+                    <div 
+                      class="red-text" 
+                      *ngIf="
+                        formModel.controls['Name'].invalid && 
+                        formModel.controls['Name'].touched">
+                      <div *ngIf="formModel.controls['Name'].errors.invalidName && !formModel.controls['Name'].errors.required">
+                        Please enter a valid Sponsor name.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label 
+                    class="form-control-label" 
+                    for="input-description"
+                    [ngClass]="{
+                      'red-text':
+                      formModel.controls['Description'].invalid &&
+                      formModel.controls['Description'].touched}">
+                      Description</label>
+                    <textarea 
+                      type="text" 
+                      id="input-description" 
+                      class="form-control" 
+                      placeholder="Description" 
+                      formControlName="Description"
+                      [ngClass]="{
+                        'red-border':
+                        formModel.controls['Description'].invalid &&
+                        formModel.controls['Description'].touched}"></textarea>
+                    <div 
+                      class="red-text" 
+                      *ngIf="
+                        formModel.controls['Description'].invalid && 
+                        formModel.controls['Description'].touched">
+                      <div *ngIf="formModel.controls['Description'].errors.invalidDescription && !formModel.controls['Description'].errors.required">
+                        Please enter a valid Sponsor description.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label class="form-control-label">
+                      Image
+                    </label>  
+                      <img id="image" 
+                        class="profile-image" 
+                        src="{{image}}" />
+                      <div 
+                        (click)="fileInput.click()" 
+                        for="fileInput" 
+                        type="button" 
+                        class="brows-button cursor-pointer bg-white  font-medium">                  
+                          Browse Photo
+                      </div>
+                      <input 
+                        formControlName="userPhoto" 
+                        name="photo" 
+                        id="imageUploadProfile" 
+                        #fileInput accept="image/*" 
+                        (change)="uploadFile($event)" 
+                        class="hidden"  
+                        type="file" >
+                  </div>
+                </div>
+              </div> 
+            </div>
+            <div class="row-mt-3">
+              <div class="col-8"></div>
+              <div class="col-4 text-right">
+                <div *ngIf="sponsor; else addNewSponsor">
+                  <a 
+                    (click)="updateSponsor()" 
+                    class="btn btn-primary">
+                    <i class="fa-solid fa-pencil"></i>&nbsp;&nbsp;Update Sponsor</a>
+                </div>
+
+                <ng-template #addNewSponsor>
+                  <a 
+                    (click)="addSponsor()" 
+                    class="btn btn-primary">
+                    <i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Add Sponsor</a>
+                </ng-template>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
 
   </div>

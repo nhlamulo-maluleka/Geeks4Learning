@@ -13,7 +13,8 @@ namespace G4L.UserManagement.BL.Interfaces
         Task RegisterSponsorAsync(RegisterSponsorRequest sponsor);
         Task<IEnumerable<Sponsor>> GetAllSponsorsAsync();
         Task<Sponsor> GetSponsorByIdAsync(Guid id);
+        Task<Sponsor> GetSponsorAsync(string name);
         Task UpdateSponsorAsync(UpdateSponsorRequest sponsor);
-        Task DeleteSponsorAsync(Guid id);   
+        Task DeleteSponsorAsync(Guid id);
     }
 }

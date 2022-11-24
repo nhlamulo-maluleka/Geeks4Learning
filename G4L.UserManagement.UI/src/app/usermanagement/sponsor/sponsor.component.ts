@@ -1,6 +1,6 @@
 import { animate, animation } from '@angular/animations';
 import { formatDate } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { ToastrService } from 'ngx-toastr';
@@ -21,12 +21,15 @@ export class SponsorComponent implements OnInit {
   sponsor: any | null = null;
   sponsors: any;
   modalDialog: MdbModalRef<SponsorComponent> | null = null;
+  image: any = '../assets/images/user.jpg';
+  Userform: any;
   
 
   constructor(
     private formBuilder: FormBuilder,
     private sponsorService: SponsorService,
     private modalService: MdbModalService,
+    private cdr: ChangeDetectorRef,
     public modalRef: MdbModalRef<SponsorComponent>,
     private toastr: ToastrService
   ) { }
@@ -50,10 +53,9 @@ export class SponsorComponent implements OnInit {
 
   buildForm(sponsor?: any) {
     this.formModel = this.formBuilder.group({
-      Id: [sponsor?.id],
       Name: [sponsor?.name, [Validators.required]],
-      Description: [sponsor?.description],
-      Image: [sponsor?.image]
+      Description: [sponsor?.description, [Validators.required]],
+      Image: [sponsor?.image, [Validators.required]],
     });
   }
 
@@ -74,6 +76,12 @@ openDialog(sponsor?: any) {
 }
 
   addSponsor(){
+    this.formModel.markAllAsTouched();
+
+    if (this.formModel.invalid){
+      return;
+    } 
+
     this.sponsorService.addSponsor('Sponsor' ,this.formModel.value).subscribe(
       () => {
         this.toastr.success(`${this.formModel.value.Name} added successfully`);
@@ -83,6 +91,12 @@ openDialog(sponsor?: any) {
   }
 
   updateSponsor(){
+    this.formModel.markAllAsTouched();
+
+    if (this.formModel.invalid){
+      return;
+    }
+
     this.sponsorService.updateSponsor('Sponsor' ,this.formModel.value).subscribe(
       () => {
         this.toastr.success(`${this.formModel.value.Name} updated successfully`);
@@ -92,8 +106,8 @@ openDialog(sponsor?: any) {
   }
 
   deleteSponsor(id: any){
-    this.sponsorService.deleteSponsor(id).subscribe((response: any) => {
-      this.toastr.success(`${response.name} deleted successfully`);
+    this.sponsorService.deleteSponsor(id).subscribe(() => {
+      this.toastr.success(`The Sponsor was deleted successfully`);
       this.getAllSponsors();
     });
   }
@@ -101,4 +115,28 @@ openDialog(sponsor?: any) {
   close(){
     this.modalRef.close();
   }
+  
+  @ViewChild('fileInput') el: ElementRef | undefined;
+  editFile: boolean = true;
+  removeUpload: boolean = false;  
+
+  uploadFile(event:any) {
+    let reader = new FileReader(); // HTML5 FileReader API
+    let file = event.target.files[0];
+    if (event.target.files && event.target.files[0]) {
+      reader.readAsDataURL(file); 
+      // When file uploads set it to file formcontrol
+      reader.onload = () => {
+        this.image = reader.result;
+        this.formModel.patchValue({
+          file: reader.result
+        });
+        this.editFile = false;
+        this.removeUpload = true;
+      }
+      // ChangeDetectorRef since file is loading outside the zone
+      this.cdr.markForCheck();        
+    }
+  }
+
 }

@@ -39,6 +39,11 @@ namespace G4L.UserManagement.DA.Services
             await _sponsorRepository.DeleteAsync(id);
         }
 
+        public async Task<Sponsor> GetSponsorAsync(string name) 
+        {
+            return await _sponsorRepository.GetSponsorByNameAsync(name);
+        }
+
         public async Task<Sponsor> GetSponsorByIdAsync(Guid id)
         {
             return await _sponsorRepository.GetByIdAsync(id);
@@ -56,6 +61,13 @@ namespace G4L.UserManagement.DA.Services
                     Message = "Sponsor not found"
                 }));
 
+            if (await _sponsorRepository.QueryAsync(x => x.Name == model.Name && x.Id != model.Id) != null)
+                throw new AppException(JsonConvert.SerializeObject(new ExceptionObject
+                {
+                    ErrorCode = ServerErrorCodes.SponsorAlreadyExists.ToString(),
+                    Message = "Sponsor already exists"
+                }));
+
             //update sponsor properties
             sponsor.Name = model.Name;
             sponsor.Description = model.Description;
@@ -63,5 +75,7 @@ namespace G4L.UserManagement.DA.Services
 
             await _sponsorRepository.UpdateAsync(sponsor);
         }
+        
+        
     }
 }

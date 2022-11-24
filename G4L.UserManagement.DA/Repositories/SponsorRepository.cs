@@ -42,11 +42,11 @@ namespace G4L.UserManagement.DA.Repositories
             await _databaseContext.SaveChangesAsync();
         }
 
-        public async Task<Sponsor> GetSponsorByIdAsync(Guid id)
+        public async Task<Sponsor> GetSponsorByNameAsync(string name)
         {
             return await Task.Run(() =>
             {
-                return _databaseContext.Set<Sponsor>().Where(x => x.Id == id).FirstOrDefault();
+                return _databaseContext.Set<Sponsor>().Where(x => x.Name == name).FirstOrDefaultAsync();
             });
         }
     }

@@ -13,6 +13,7 @@ namespace G4L.UserManagement.BL.Enum
         SponsorNotFound,
         DuplicateIdNumber,
         DuplicateEmail,
-        DuplicatePhoneNumber
+        DuplicatePhoneNumber,
+        SponsorAlreadyExists
     }
 }

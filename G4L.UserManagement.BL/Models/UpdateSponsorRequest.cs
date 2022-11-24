@@ -13,7 +13,7 @@ namespace G4L.UserManagement.BL.Models
         public Guid Id { get; set; }
         [Required]
         public string Name { get; set; }
-        
+        [Required]
         public string Description { get; set; }
         
         public string Image { get; set; }

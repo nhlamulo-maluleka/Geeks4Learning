@@ -9,7 +9,9 @@ import { ServerErrorCodes } from 'src/app/shared/global/server-error-codes';
 import { Streams } from 'src/app/shared/global/streams';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { environment } from 'src/environments/environment';
+import { SponsorService } from '../services/sponsor.service';
 import { UserService } from '../services/user.service';
+import { IDropdownSettings, } from 'ng-multiselect-dropdown';
 
 @Component({
   selector: 'app-enrol',
@@ -28,20 +30,58 @@ export class EnrolComponent implements OnInit {
   userRole: string | null = null;
   serverErrorMessage: any;
   editCrucialInfo: boolean = false;
+  sponsor: any | null = null;
+  sponsors: any;
+  
+  form: any;
 
+  dropdownList: any[] = [];
+  dropdownSettings:IDropdownSettings={};
+  
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
+    private sponsorService: SponsorService,
     public modalRef: MdbModalRef<EnrolComponent>,
     private toastr: ToastrService
-  ) {}
+    ) {}
+   
+  onSubmit() {
+    console.log(this.form.value)
+  }
 
   ngOnInit(): void {
     this.buildForm(this.user);
-    this.userRole = sessionStorage.getItem(contants.role);
+    this.getAllSponsors();
+    this.userRole = sessionStorage.getItem(contants.role); 
+    this.dropdownSettings = {
+      textField: 'name',
+      allowSearchFilter: true,
+    };
   }
 
-  buildForm(user?: any) {
+  onItemSelect(item: any) {
+    console.log('onItemSelect', item);
+  }
+  onItemDeSelect(item: any) {
+      console.log('onItemDeSelect', item);
+  }
+  onSelectAll(items: any) {
+      console.log('onSelectAll', items);
+  }
+  onUnSelectAll() {
+      console.log('onUnSelectAll fires');
+  }
+  
+  getAllSponsors() {
+    this.sponsorService.getAllSponsors().subscribe(
+      (response: any) => {
+        this.sponsors = response;
+      }
+    );
+  }
+
+  buildForm(user?: any, sponsor?: any) {
     this.formModel = this.formBuilder.group({
       Id: [user?.id],
       Name: [user?.name, [Validators.required, CustomValidators.names]],
@@ -67,7 +107,7 @@ export class EnrolComponent implements OnInit {
       ],
       Client: [
         {
-          value: user?.client,
+          value: user?.client || sponsor?.name, 
           disabled: !this.editCrucialInfo,
         }],
       LearnershipStartDate: [
@@ -184,10 +224,9 @@ export class EnrolComponent implements OnInit {
     switch (role) {
       case Roles.Learner:
         return true;
-      case Roles.Trainer:
-        this.setG4LDefaults();
-        return false;
       case Roles.Admin:
+        return false;
+      
       case Roles.Super_Admin:
         this.setG4LDefaults();
         return false;
@@ -195,6 +234,23 @@ export class EnrolComponent implements OnInit {
         return false;
     }
   }
+
+  isTrainerAdmin() {
+  const role = this.formModel.controls['Role'].value;
+  switch (role) {
+    case Roles.Trainer:
+      return true;
+    case Roles.Learner:
+      this.isLearner();
+      return false;
+    case Roles.Super_Admin:
+      this.setG4LDefaults();
+      return false;
+    default:
+      return false;
+    }
+  }
+  
 
   setG4LDefaults() {
     const today = Date.now();
@@ -216,5 +272,9 @@ export class EnrolComponent implements OnInit {
       default:
         return false;
     }
+  }
+
+  onChange(event: any){
+    console.log(event.value);
   }
 }

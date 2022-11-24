@@ -10,7 +10,7 @@ namespace G4L.UserManagement.BL.Interfaces
 {
     public interface ISponsorRepository : IRepository<Sponsor>
     {
-        Task<Sponsor> GetSponsorByIdAsync(Guid id);
+        Task<Sponsor> GetSponsorByNameAsync(string name);
         Task CreateSponsorAsync(RegisterSponsorRequest model);
     }
     

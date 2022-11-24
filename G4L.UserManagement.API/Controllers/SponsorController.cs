@@ -30,12 +30,13 @@ namespace G4L.UserManagement.API.Controllers
             return Ok(await _sponsorService.GetAllSponsorsAsync());
         }
 
+
         [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody] RegisterSponsorRequest sponsor)
         {
             await _sponsorService.RegisterSponsorAsync(sponsor);
-            return Ok();
+            return Ok(sponsor);
         }
 
         [AllowAnonymous]
@@ -45,7 +46,8 @@ namespace G4L.UserManagement.API.Controllers
             await _sponsorService.UpdateSponsorAsync(sponsor);
             return Ok();
         }
-        
+
+
         [AllowAnonymous]
         [HttpDelete]
         public async Task<IActionResult> DeleteAsync(Guid id)

@@ -380,79 +380,70 @@
                 </div>
               </div>
             </div>
+
             <div class="col-lg-4">
               <div class="form-group">
                 <label
                   class="form-control-label"
                   for="input-client"
-                  [ngClass]="{
-                    'red-text':
+                  [ngClass]=
+                    "{'red-text':
                       formModel.controls['Client'].invalid &&
-                      formModel.controls['Client'].touched
-                  }"
-                  >Client<span class="red-text">*</span></label
-                >
-                <input
-                  type="text"
+                      formModel.controls['Client'].touched}"
+                  >Client<span class="red-text">*</span>
+                </label>
+                <select
                   id="input-client"
-                  class="form-control"
-                  placeholder="Client"
+                  class="form-select"
                   formControlName="Client"
-                  [ngClass]="{
-                    'red-border':
-                      formModel.controls['Client'].invalid &&
-                      formModel.controls['Client'].touched
-                  }"
-                />
+                  [ngClass]="{'red-border':
+                    formModel.controls['Client'].invalid &&
+                    formModel.controls['Client'].touched}">
+                    <option value="" selected disabled>Select a client</option>
+                  <option
+                    *ngFor="let sponsor of sponsors;let i=index"
+                    [ngValue]="sponsor.name">
+                    {{ sponsor.name }}
+                  </option>
+                </select>
                 <div
                   class="red-text"
                   *ngIf="
                     formModel.controls['Client'].invalid &&
-                    formModel.controls['Client'].touched
-                  "
-                >
+                    formModel.controls['Client'].touched">
                   <div *ngIf="formModel.controls['Client'].errors.required">
-                    Please enter the client responsible for the learner.
-                  </div>
+                    Please select your prefered career.
+                  </div>                  
                 </div>
               </div>
             </div>
+            
             <div class="col-lg-4">
               <div class="form-group">
                 <label
                   class="form-control-label"
                   for="input-learnershipStartDate"
-                  [ngClass]="{
-                    'red-text':
-                      formModel.controls['LearnershipStartDate'].invalid &&
-                      formModel.controls['LearnershipStartDate'].touched
-                  }"
-                  >Learnership Start Date<span class="red-text">*</span></label
-                >
+                  [ngClass]="{'red-text':
+                    formModel.controls['LearnershipStartDate'].invalid &&
+                    formModel.controls['LearnershipStartDate'].touched}">
+                  Learnership Start Date<span class="red-text">*</span></label>
                 <input
                   type="date"
                   id="input-learnershipStartDate"
                   class="form-control"
                   [placeholder]="user?.learnershipStartDate"
                   formControlName="LearnershipStartDate"
-                  [ngClass]="{
-                    'red-border':
-                      formModel.controls['LearnershipStartDate'].invalid &&
-                      formModel.controls['LearnershipStartDate'].touched
-                  }"
-                />
+                  [ngClass]="{'red-border':
+                    formModel.controls['LearnershipStartDate'].invalid &&
+                    formModel.controls['LearnershipStartDate'].touched}"/>
                 <div
                   class="red-text"
                   *ngIf="
                     formModel.controls['LearnershipStartDate'].invalid &&
-                    formModel.controls['LearnershipStartDate'].touched
-                  "
-                >
+                    formModel.controls['LearnershipStartDate'].touched">
                   <div
                     *ngIf="
-                      formModel.controls['LearnershipStartDate'].errors.required
-                    "
-                  >
+                      formModel.controls['LearnershipStartDate'].errors.required">
                     Please enter the Learnership Start Date.
                   </div>
                 </div>
@@ -460,26 +451,55 @@
             </div>
           </div>
         </div>
+      <!--Assign Trainer Learner/sponsor details-->
+        <div *ngIf="isTrainerAdmin()">
+          <h6 class="heading-small text-muted mb-4">
+            Assign Trainer to Sponors
+          </h6>
+          <div class="row">
+            <div class="col-lg-10">
+              <div class="form-group">
+                <label
+                  class="form-control-label"
+                  for="input-client"
+                  [ngClass]="{'red-text':
+                    formModel.controls['Client'].invalid &&
+                    formModel.controls['Client'].touched}">
+                  Client<span class="red-text">*</span>
+                </label>
+                <ng-multiselect-dropdown
+                    [settings]="dropdownSettings"
+                    [data]="sponsors"
+                    [ngClass]="{'red-border':
+                    formModel.controls['Client'].invalid &&
+                    formModel.controls['Client'].touched}"
+                    formControlName="Client"
+                    (onSelect)="onItemSelect($event)"
+                    (onSelectAll)="onSelectAll($event)"
+                    (onDeSelect)="onItemDeSelect($event)"
+                    (onDeSelectAll)="onUnSelectAll()">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="row mt-3">
           <div class="col-8"></div>
           <div class="col-4 text-end">
             <div *ngIf="user; else addNewUser">
               <a
                 (click)="updateUser()"
-                class="btn btn-sm bg-2 gradient-primary mb-0 btn-dark"
-              >
-                <i class="fa-solid fa-user-pen"></i>&nbsp;&nbsp;UPDATE USER</a
-              >
+                class="btn btn-sm bg-2 gradient-primary mb-0 btn-dark">
+                <i class="fa-solid fa-user-pen"></i>&nbsp;&nbsp;UPDATE USER</a>
             </div>
 
             <ng-template #addNewUser>
               <a
                 (click)="addUser()"
-                class="btn btn-sm bg-2 gradient-primary mb-0 btn-dark"
-              >
+                class="btn btn-sm bg-2 gradient-primary mb-0 btn-dark">
                 <i class="fas fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;ADD
-                NEW USER</a
-              >
+                NEW USER</a>
             </ng-template>
           </div>
         </div>
@@ -487,3 +507,4 @@
     </div>
   </div>
 </div>
+

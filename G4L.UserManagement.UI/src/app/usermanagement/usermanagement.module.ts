@@ -9,6 +9,7 @@ import { EnrolComponent } from './enrol/enrol.component';
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 import { PipesModule } from '../shared/pipes/pipes.module';
 import { SponsorComponent } from './sponsor/sponsor.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { SponsorComponent } from './sponsor/sponsor.component';
     ReactiveFormsModule,
     HttpClientModule,
     MdbModalModule,
-    PipesModule
+    PipesModule,
+    NgMultiSelectDropDownModule
   ],
 })
 export class UsermanagementModule {}

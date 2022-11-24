@@ -17,11 +17,12 @@ import { RemoveUnderscorePipe } from './shared/pipes/remove-underscore.pipe';
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideStorage,getStorage } from '@angular/fire/storage';
+import { AngularMultiSelect } from 'angular2-multiselect-dropdown';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoaderComponent
+    LoaderComponent,
   ],
   imports: [
     BrowserModule,

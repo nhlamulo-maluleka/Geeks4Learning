@@ -7,12 +7,14 @@ import { MasterLayoutRoutingModule } from './master-layout.routing';
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { MaterialModule } from '../shared/material/material.module';
 
+
 @NgModule({
-  declarations: [ MasterLayoutComponent, TopNavComponent, ContentAreaComponent, SideNavComponent ],
+  declarations: [ MasterLayoutComponent, TopNavComponent, ContentAreaComponent, SideNavComponent],
+  
   imports: [
     CommonModule,
     MasterLayoutRoutingModule,
-    MaterialModule
+    MaterialModule,
   ]
 })
 export class MasterLayoutModule { }
