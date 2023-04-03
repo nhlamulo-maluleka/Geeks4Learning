@@ -19,7 +19,7 @@ namespace G4L.UserManagement.BL.Entities
         public string Description { get; set; }
         public TimeSpan Duration { get; set; }
         public GoalStatus GoalStatus { get; set; }
-        public int PauseCount { get; set; }
+        public int PausedCount { get; set; }
         public int ArchiveCount { get; set; }
         public Guid UserId { get; set; }
         public List<GoalComment> Comment { get; set; }

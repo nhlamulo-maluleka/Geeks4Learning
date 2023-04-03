@@ -1,18 +1,16 @@
 ﻿using G4L.UserManagement.API.Authorization;
-using G4L.UserManagement.BL.Entities;
 using G4L.UserManagement.BL.Enum;
 using G4L.UserManagement.BL.Interfaces;
 using G4L.UserManagement.BL.Models.Request;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace G4L.UserManagement.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-   //[Authorize(Role.Super_Admin, Role.Admin, Role.Learner, Role.Admin)]
+    [Authorize]
     public class GoalController : ControllerBase
     {
         private readonly IGoalService _goalService;
@@ -24,6 +22,7 @@ namespace G4L.UserManagement.API.Controllers
             _userService = userService;
         }
 
+        [Authorize(Role.Super_Admin, Role.Admin, Role.Learner, Role.Trainer)]
         [HttpGet]
         [Route("{UserId}")]
         public async Task<IActionResult> GetAllUserGoals([FromRoute] Guid UserId)
@@ -31,31 +30,30 @@ namespace G4L.UserManagement.API.Controllers
             return Ok(await _goalService.GetUserGoalsAsync(UserId));
         }
 
+        [Authorize(Role.Super_Admin, Role.Admin,Role.Trainer)]
         [HttpGet]
         public async Task<IActionResult> GetAllGoals()
         {
-            var goalList = await _goalService.GetAllGoalsAsync();
-            return Ok(goalList);
+            return Ok(await _goalService.GetAllGoalsAsync());
         }
 
+        [Authorize(Role.Super_Admin, Role.Admin, Role.Learner, Role.Trainer)]
         [HttpGet]
         [Route("goalId")]
         public async Task<IActionResult> GetGoal([FromRoute] Guid goalId)
         {
-            var goalList = await _goalService.GetAllGoalsAsync();
-            return Ok(goalList);
+            return Ok(await _goalService.GetAllGoalsAsync());
         }
-
+  
         [HttpPost]
-       // [Authorize(Role.Learner)]
-        [Route("AddGoal")]
+        [Authorize(Role.Learner)]
         public async Task<IActionResult> AddGoalsync([FromBody] GoalRequest goalRequest)
         {
-            var responseGoal = await _goalService.CreateUserGoalAsync(goalRequest);
-            return Ok(responseGoal);
+            return Ok(await _goalService.CreateUserGoalAsync(goalRequest));
         }
 
         [HttpPut]
+        [Authorize(Role.Learner)]
         public async Task<IActionResult> UpdateGoal([FromBody] GoalRequest goal)
         {
             return Ok(await _goalService.UpdateGoal(goal));

@@ -13,6 +13,8 @@ namespace G4L.UserManagement.BL.Enum
         DuplicateIdNumber,
         DuplicateEmail,
         DuplicatePhoneNumber,
-        DuplicateAttendanceDate
+        DuplicateAttendanceDate,
+        DuplicateGoal,
+        GoalNotFound
     }
 }

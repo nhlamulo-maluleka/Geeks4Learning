@@ -45,10 +45,8 @@ export class GoalManagementService {
     goal.userId = user.id;
 
     this.http
-      .post<GoalModel>(`${this.config.apiUrl}/goal/addGoal`, goal)
+      .post<GoalModel>(`${this.config.apiUrl}/goal`, goal)
       .subscribe((newGoal) => {
-        console.log('Hi');
-        console.log(newGoal);
         this.emitGoal(newGoal);
       });
   }

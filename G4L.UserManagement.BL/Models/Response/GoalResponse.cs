@@ -15,7 +15,7 @@ namespace G4L.UserManagement.BL.Models.Response
         public string Description { get; set; }
         public string Duration { get; set; }
         public GoalStatus GoalStatus { get; set; }
-        public int PauseCount { get; set; }
+        public int PausedCount { get; set; }
         public int ArchiveCount { get; set; }
         public Guid UserId { get; set; }
         public Guid AttendenceId { get; set; }
