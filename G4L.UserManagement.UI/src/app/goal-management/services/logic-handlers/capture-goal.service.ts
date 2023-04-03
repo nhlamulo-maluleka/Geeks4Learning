@@ -30,25 +30,23 @@ export class CaptureGoalService {
     })
   }
 
-  public openAddGoalTaskDialog(goalObject: GoalModel, modalViewType: viewType = "create") {
-    // Set the current goal reference
-    this.currentGoal = goalObject;
+  // public openAddGoalTaskDialog(goalObject: GoalModel, modalViewType: viewType = "create") {
+  //   // Set the current goal reference
+  //   this.currentGoal = goalObject;
 
-    this.onTaskCreation(this.mdbModalService.openMdbModal<CreateGoalTaskComponent>({
-      component: CreateGoalTaskComponent,
-      data: null,
-      ignoreBackdropClick: false,
-      width: 50
-    }), modalViewType)
-  }
+  //   // this.onTaskCreation(, modalViewType)
+  // }
 
-  public onTaskCreation(taskRef: MdbModalRef<CreateGoalTaskComponent>, modalViewType: viewType): void {
+  public onTaskCreation(
+    taskRef: MdbModalRef<CreateGoalTaskComponent>,
+    goal: GoalModel,
+    modalViewType: viewType = "create"): void {
     taskRef.onClose.subscribe((newTask: string | null) => {
       if (newTask) {
-        this.currentGoal['tasks']?.push({
+        goal['tasks']?.push({
           title: newTask,
           complete: false,
-          goalId: this.currentGoal.id
+          goalId: goal.id
         })
         /**
          * If creating a task for an existing goal

@@ -3,13 +3,16 @@ import { GoalModel, goalStatus, viewType } from '../../models/goal-model';
 import { CaptureGoalService } from '../../services/logic-handlers/capture-goal.service';
 import { GoalButtonActionService } from '../../services/logic-handlers/goal-button-action.service';
 import { GoalManagementService } from '../../services/api/goal-management.service';
+import { GoalModalHandlerService } from '../../services/modals/goal-modal-handler.service';
+import { CreateGoalTaskComponent } from '../../modals/create-goal-task/create-goal-task.component';
+import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 
 @Component({
   selector: 'app-tasks',
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.css'],
 })
-export class TasksComponent implements OnInit {
+export class TasksComponent {
   @Input()
   goal!: GoalModel;
 
@@ -22,10 +25,9 @@ export class TasksComponent implements OnInit {
   constructor(
     private goalManagementService: GoalManagementService,
     private captureGoalService: CaptureGoalService,
-    private goalButtonActionService: GoalButtonActionService
+    private goalButtonActionService: GoalButtonActionService,
+    private mdbModalService: GoalModalHandlerService<any>
   ) { }
-
-  ngOnInit(): void { }
 
   toggleTaskForCompletion(element: any) {
     const { target: { id } } = element;
@@ -60,6 +62,16 @@ export class TasksComponent implements OnInit {
   }
 
   addMoreTasks() {
-    this.captureGoalService.openAddGoalTaskDialog(this.goal, "view");
+    const createTaskModalReference: MdbModalRef<CreateGoalTaskComponent> = this.mdbModalService.openMdbModal<CreateGoalTaskComponent>({
+      component: CreateGoalTaskComponent,
+      data: null,
+      ignoreBackdropClick: false,
+      width: 50
+    })
+
+    this.captureGoalService.onTaskCreation(
+      createTaskModalReference,
+      this.goal,
+      "view");
   }
 }

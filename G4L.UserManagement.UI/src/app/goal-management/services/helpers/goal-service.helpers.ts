@@ -1,7 +1,7 @@
 import { encouragingWords } from "src/app/shared/constants/encouragement";
 import { archivedState, backlogState, completedState, pausedState, startedState } from "src/app/shared/constants/goal-states";
 import { pauseEncouragement } from "src/app/shared/constants/pauseEncouragement";
-import { GoalModel, goalStatus, GoalTaskModel } from "../../models/goal-model";
+import { GoalModel, GoalTaskModel } from "../../models/goal-model";
 
 export const getCompletedTasks = (taskList: Array<GoalTaskModel>): Array<GoalTaskModel> => {
     return taskList?.filter((task: GoalTaskModel) => task.complete === true)

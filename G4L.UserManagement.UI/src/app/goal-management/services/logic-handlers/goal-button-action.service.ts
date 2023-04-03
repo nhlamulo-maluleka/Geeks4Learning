@@ -20,7 +20,6 @@ import { GoalCommentService } from './goal-comment.service';
 })
 export class GoalButtonActionService {
   private viewGoalModalRef!: MdbModalRef<ViewSelectedGoalComponent>;
-  private extraTimeModalRef!: MdbModalRef<AddExtraGoalTimeComponent>
   private goalProgress: number = 0;
 
   constructor(
@@ -28,7 +27,6 @@ export class GoalButtonActionService {
     private toastrMessages: ToastrMessagesService,
     private activeGoalService: ActiveGoalService,
     private goalCommentService: GoalCommentService,
-    private modalService: MdbModalService,
     private goalValidationsService: GoalValidationHandlerService
   ) { }
 
@@ -104,7 +102,7 @@ export class GoalButtonActionService {
     // Store the previous status for use later
     const previousGoalContainer: goalStatus = goal.goalStatus;
 
-    // Change the goal status 
+    // Change the goal status
     goal.goalStatus = archivedState;
 
     // Updating goal changes in the database

@@ -19,6 +19,8 @@ import {
 } from '../../models/goal-model';
 import { GoalManagementService } from '../../services/api/goal-management.service';
 import { CaptureGoalService } from '../../services/logic-handlers/capture-goal.service';
+import { CreateGoalTaskComponent } from '../create-goal-task/create-goal-task.component';
+import { GoalModalHandlerService } from '../../services/modals/goal-modal-handler.service';
 
 @Component({
   selector: 'app-capture-goals',
@@ -52,10 +54,11 @@ export class CaptureGoalsComponent implements OnInit {
     private goalManagementService: GoalManagementService,
     private captureGoalService: CaptureGoalService,
     private toastrMessage: ToastrMessagesService,
+    private mdbModalService: GoalModalHandlerService<any>,
     private attendanceService: AttendanceService
-  ) {}
+  ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   getFormControl(name: string): AbstractControl {
     return this.formModel.controls[name];
@@ -81,7 +84,16 @@ export class CaptureGoalsComponent implements OnInit {
   }
 
   addGoalTask(): void {
-    this.captureGoalService.openAddGoalTaskDialog(this.currentGoal);
+    const createTaskModalReference: MdbModalRef<CreateGoalTaskComponent> = this.mdbModalService.openMdbModal<CreateGoalTaskComponent>({
+      component: CreateGoalTaskComponent,
+      data: null,
+      ignoreBackdropClick: false,
+      width: 50
+    })
+
+    this.captureGoalService.onTaskCreation(
+      createTaskModalReference,
+      this.currentGoal);
   }
 
   addNewGoal() {
